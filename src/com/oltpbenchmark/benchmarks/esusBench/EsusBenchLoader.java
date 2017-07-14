@@ -86,50 +86,50 @@ static int loadSexo() throws SQLException {
 		int k = 0;
 		int t = 0;
 		BufferedReader br = null;
-		
-		try {
-			now = new java.util.Date();
-			LOG.info("\nStart load Sexo @ " + now
-					+ " ...");
-
-			int i = 0;
-			while(++i<10){
-				tbDim.setLong(1, 5+i);
-				tbDim.setLong(2, 5+i);
-				tbDim.setString(3, "sexo_"+ran.nextInt());
-				tbDim.setString(4, "sexo_"+ran.nextInt());
-				tbDim.setLong(5, ran.nextInt()%100);
-				
-				tbDim.addBatch();
-			}
-			
-			long tmpTime = new java.util.Date().getTime();
-			String etStr = "  Elasped Time(ms): "
-					+ ((tmpTime - lastTimeMS) / 1000.000)
-					+ "                    ";
-			LOG.info(etStr.substring(0, 30)
-					+ "  Writing record " + k + " of " + t);
-			lastTimeMS = tmpTime;
-			
-			tbDim.executeBatch();
-			tbDim.clearBatch();
-			conn.commit();
-
-		} catch (SQLException se) {
-			LOG.info(se.getMessage());
-			conn.rollback();
-		}  catch (Exception e) {
-            e.printStackTrace();
-            conn.rollback();
-        } finally {
-            if (br != null){
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//		
+//		try {
+//			now = new java.util.Date();
+//			LOG.info("\nStart load Sexo @ " + now
+//					+ " ...");
+//
+//			int i = 0;
+//			while(++i<10){
+//				tbDim.setLong(1, 5+i);
+//				tbDim.setLong(2, 5+i);
+//				tbDim.setString(3, "sexo_"+ran.nextInt());
+//				tbDim.setString(4, "sexo_"+ran.nextInt());
+//				tbDim.setLong(5, ran.nextInt()%100);
+//				
+//				tbDim.addBatch();
+//			}
+//			
+//			long tmpTime = new java.util.Date().getTime();
+//			String etStr = "  Elasped Time(ms): "
+//					+ ((tmpTime - lastTimeMS) / 1000.000)
+//					+ "                    ";
+//			LOG.info(etStr.substring(0, 30)
+//					+ "  Writing record " + k + " of " + t);
+//			lastTimeMS = tmpTime;
+//			
+//			tbDim.executeBatch();
+//			tbDim.clearBatch();
+//			conn.commit();
+//
+//		} catch (SQLException se) {
+//			LOG.info(se.getMessage());
+//			conn.rollback();
+//		}  catch (Exception e) {
+//            e.printStackTrace();
+//            conn.rollback();
+//        } finally {
+//            if (br != null){
+//                try {
+//                    br.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 		
 
 		return (k);

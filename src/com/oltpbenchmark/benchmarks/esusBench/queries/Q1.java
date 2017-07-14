@@ -21,7 +21,25 @@ import com.oltpbenchmark.api.SQLStmt;
 public class Q1 extends GenericQuery {
 	
     public final SQLStmt query_stmt = new SQLStmt(
-              "SELECT ds_sexo, sg_sexo, co_ordem from tb_dim_sexo"
+    		 "select "
+    				 + "	tb_dado_rel_processamento.co_ator_papel, "
+    				 + "	tb_dado_rel_processamento.co_dim_tempo_final, "
+    				 + "	tb_dado_rel_processamento.co_dim_tempo_inicio, "
+    				 + "	tb_dado_rel_processamento.co_seq_dado_rel_processamento, "
+    				 + "	tb_dado_rel_processamento.dt_inicio_processamento, "
+    				 + "	tb_dado_rel_processamento.dt_marca_reprocessamento, "
+    				 + "	tb_dado_rel_processamento.dt_processamento, "
+    				 + "	tb_dado_rel_processamento.dt_processamento_cadastros,"
+    				 + "	tb_dado_rel_processamento.dt_processamento_cnss_rel_op "
+    				 + "from "
+    				 + "	tb_dado_rel_processamento tb_dado_rel_processamento "
+    				 + "where "
+    				 + "	tb_dado_rel_processamento.co_seq_dado_rel_processamento =( "
+    				 + "		select "
+    				 + "			max( tb_dado_rel_processamento.co_seq_dado_rel_processamento ) "
+    				 + "		from "
+    				 + "			tb_dado_rel_processamento tb_dado_rel_processamento "
+    				 + "	) limit 1"
         );
 	
 		protected SQLStmt get_query() {

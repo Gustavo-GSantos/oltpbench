@@ -14,12 +14,12 @@
     <scalefactor>2</scalefactor>
 
     <!-- The workload -->
-    <terminals>2</terminals>
+    <terminals>80</terminals>
     <works>
         <work>
           <time>10</time>
           <rate>10000</rate>
-          <weights>10, 5, 5, 5</weights>
+          <weights>10, 5, 5, 50</weights>
         </work>
 	</works>
 
@@ -35,7 +35,7 @@
     		<name>Q3</name>
     	</transactiontype>
 			<transactiontype>
-    		<name>Q4</name>
+    		<name>AtendimentoIndividual</name>
     	</transactiontype>
    	</transactiontypes>
 </parameters>

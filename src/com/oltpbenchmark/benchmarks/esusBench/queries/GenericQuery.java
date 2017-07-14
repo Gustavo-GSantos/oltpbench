@@ -66,7 +66,6 @@ public abstract class GenericQuery extends Procedure {
 	protected abstract SQLStmt get_query();
     
     public ResultSet run(Connection conn) throws SQLException {
-		LOG.info("Passou aqui");
 		//initializing all prepared statements
     	stmt=this.getPreparedStatement(conn, get_query());
         if (owner != null)

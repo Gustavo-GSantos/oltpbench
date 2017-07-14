@@ -18,9 +18,11 @@ package com.oltpbenchmark.benchmarks.esusBench;
 
 import java.sql.SQLException;
 
+import com.oltpbenchmark.api.Procedure;
 import com.oltpbenchmark.api.Procedure.UserAbortException;
 import com.oltpbenchmark.api.TransactionType;
 import com.oltpbenchmark.api.Worker;
+import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
 import com.oltpbenchmark.types.TransactionStatus;
 
@@ -32,9 +34,19 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 	@Override
 	protected TransactionStatus executeWork(TransactionType nextTransaction) throws UserAbortException, SQLException {
 		try {
-			GenericQuery proc = (GenericQuery) this.getProcedure(nextTransaction.getProcedureClass());
-        	proc.setOwner(this);
-        	proc.run(conn);
+			
+			
+			Class<? extends Procedure> procedureClass = nextTransaction.getProcedureClass();
+			if (procedureClass.equals(AtendimentoIndividual.class)){
+				AtendimentoIndividual proc = this.getProcedure(AtendimentoIndividual.class);
+				if (proc != null)
+					proc.run(conn, true, 2, 30001231, 20170712);
+			}else{
+				GenericQuery proc = (GenericQuery) this.getProcedure(procedureClass);
+				proc.setOwner(this);
+	        	proc.run(conn);
+        	}
+			
 		} catch (ClassCastException e) {
         	System.err.println("We have been invoked with an INVALID transactionType?!");
         	throw new RuntimeException("Bad transaction type = "+ nextTransaction);
