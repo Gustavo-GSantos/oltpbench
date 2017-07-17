@@ -23,10 +23,15 @@ import com.oltpbenchmark.api.Procedure.UserAbortException;
 import com.oltpbenchmark.api.TransactionType;
 import com.oltpbenchmark.api.Worker;
 import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoIndividual;
+import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroDomiciliar;
+import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
 import com.oltpbenchmark.types.TransactionStatus;
+import com.oltpbenchmark.util.RandomGenerator;
 
 public class EsusBenchWorker extends Worker<EsusBench> {
+	private static final RandomGenerator ran = new RandomGenerator(0);
+	
 	public EsusBenchWorker(EsusBench benchmarkModule, int id) {
 		super(benchmarkModule, id);
 	}
@@ -37,10 +42,22 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 			
 			
 			Class<? extends Procedure> procedureClass = nextTransaction.getProcedureClass();
-			if (procedureClass.equals(AtendimentoIndividual.class)){
-				AtendimentoIndividual proc = this.getProcedure(AtendimentoIndividual.class);
+			if (procedureClass.equals(CadastroIndividual.class)){
+				CadastroIndividual proc = this.getProcedure(CadastroIndividual.class);
 				if (proc != null)
-					proc.run(conn, true, 2, 30001231, 20170712);
+					proc.run(conn, true, 2, 20170712, 30001231);
+			} else if (procedureClass.equals(CadastroDomiciliar.class)){
+				CadastroDomiciliar proc = this.getProcedure(CadastroDomiciliar.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%14+1), 2, generateDate("20100712", "20170712"), 30001231);
+				}
+				
+			}else if (procedureClass.equals(AtendimentoIndividual.class)){
+				AtendimentoIndividual proc = this.getProcedure(AtendimentoIndividual.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%14+1), 2, generateDate("20100712", "20170712"), 30001231);
+				}
+				
 			}else{
 				GenericQuery proc = (GenericQuery) this.getProcedure(procedureClass);
 				proc.setOwner(this);
@@ -56,4 +73,29 @@ public class EsusBenchWorker extends Worker<EsusBench> {
         return (TransactionStatus.SUCCESS);
 
 	}
+	
+	private int generateDate (String startDate, String finalDate){
+		String generatedDate = "";
+		
+		int sYear = Integer.parseInt(startDate.substring(0, 4));
+		int sMonth = Integer.parseInt(startDate.substring(4, 6));
+		int sDay = Integer.parseInt(startDate.substring(6, 8));
+		
+		//System.out.println("\n --> "+ "y: "+sYear + "m: "+sMonth+ "d: "+sDay  +"\n");
+		
+		int fYear = Integer.parseInt(finalDate.substring(0, 4));
+		int fMonth = Integer.parseInt(finalDate.substring(4, 6));
+		int fDay = Integer.parseInt(finalDate.substring(6, 8));
+		
+		generatedDate = String.valueOf(sYear+(Math.abs(ran.nextInt())%(fYear-sYear + 1)));
+		generatedDate += String.format("%02d", (sMonth+(Math.abs(ran.nextInt())%(fMonth-sMonth + 1))%12)+1);
+		generatedDate += String.format("%02d",(sDay+(Math.abs(ran.nextInt())%(fDay-sDay + 1))%28)+1);
+		
+		if (generatedDate.length() < 8){
+			System.err.println("Data gerada errado!");
+			generatedDate = finalDate;
+		}
+		return Integer.parseInt(generatedDate);
+	}
+	
 }
