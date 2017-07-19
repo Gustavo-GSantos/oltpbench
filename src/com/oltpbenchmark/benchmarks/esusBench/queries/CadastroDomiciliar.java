@@ -34,7 +34,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "			max( tb_dado_rel_processamento.co_seq_dado_rel_processamento ) "
 					+ "		from "
 					+ "			tb_dado_rel_processamento tb_dado_rel_processamento "
-					+ "	) limit 1");
+					+ "	)");
 
 	// 1 - coDimMunicipio
 	// 2 - codimTempoValidade
@@ -102,7 +102,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_imovel.co_seq_dim_tipo_imovel = fato.coDimTipoImovel "
+					+ "fato on tb_dim_tipo_imovel.co_seq_dim_tipo_imovel = fato.coDimTipoImovel "
 					+ "group by tb_dim_tipo_imovel.co_ordem,tb_dim_tipo_imovel.ds_tipo_imovel "
 					+ "order by tb_dim_tipo_imovel.co_ordem asc ");
 
@@ -172,7 +172,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_situacao_moradia.co_seq_dim_tipo_situacao_morad = fato.coDimTipoSituacaoMoradia "
+					+ "fato on tb_dim_tipo_situacao_moradia.co_seq_dim_tipo_situacao_morad = fato.coDimTipoSituacaoMoradia "
 					+ "group by tb_dim_tipo_situacao_moradia.co_ordem, "
 					+ "tb_dim_tipo_situacao_moradia.ds_tipo_situacao_moradia "
 					+ "order by tb_dim_tipo_situacao_moradia.co_ordem asc ");
@@ -243,7 +243,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_localizacao.co_seq_dim_tipo_localizacao = fato.coDimTipoLocalizacao "
+					+ "fato on tb_dim_tipo_localizacao.co_seq_dim_tipo_localizacao = fato.coDimTipoLocalizacao "
 					+ "group by tb_dim_tipo_localizacao.co_ordem, "
 					+ "tb_dim_tipo_localizacao.ds_tipo_localizacao "
 					+ "order by tb_dim_tipo_localizacao.co_ordem asc ");
@@ -314,7 +314,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_domicilio.co_seq_dim_tipo_domicilio = fato.coDimTipoDomicilio "
+					+ "fato on tb_dim_tipo_domicilio.co_seq_dim_tipo_domicilio = fato.coDimTipoDomicilio "
 					+ "group by tb_dim_tipo_domicilio.co_ordem,tb_dim_tipo_domicilio.ds_tipo_domicilio "
 					+ "order by tb_dim_tipo_domicilio.co_ordem asc ");
 
@@ -384,7 +384,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_posse_terra.co_seq_dim_tipo_posse_terra = fato.coDimTipoPosseTerra "
+					+ "fato on tb_dim_tipo_posse_terra.co_seq_dim_tipo_posse_terra = fato.coDimTipoPosseTerra "
 					+ "group by tb_dim_tipo_posse_terra.co_ordem, "
 					+ "tb_dim_tipo_posse_terra.ds_tipo_posse_terra "
 					+ "order by tb_dim_tipo_posse_terra.co_ordem asc ");
@@ -493,9 +493,9 @@ public class CadastroDomiciliar extends Procedure {
 					+ "         and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "      ) "
 					+ "   ) "
-					+ "   as fact "
+					+ "   fact  "
 					+ ") "
-					+ "as fato on tb_dim_tipo_acesso_domicilio.co_seq_dim_tipo_acesso_domicil = fato.coDimTipoAcessoDomicilio "
+					+ "fato on tb_dim_tipo_acesso_domicilio.co_seq_dim_tipo_acesso_domicil = fato.coDimTipoAcessoDomicilio "
 					+ "group by tb_dim_tipo_acesso_domicilio.co_ordem, "
 					+ "tb_dim_tipo_acesso_domicilio.ds_tipo_acesso_domicilio "
 					+ "order by tb_dim_tipo_acesso_domicilio.co_ordem asc, "
@@ -567,7 +567,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_material_parede.co_seq_dim_tipo_material_pared = fato.coDimTipoMaterialParede "
+					+ "fato on tb_dim_tipo_material_parede.co_seq_dim_tipo_material_pared = fato.coDimTipoMaterialParede "
 					+ "group by tb_dim_tipo_material_parede.co_ordem, "
 					+ "tb_dim_tipo_material_parede.ds_tipo_material_parede "
 					+ "order by tb_dim_tipo_material_parede.co_ordem asc ");
@@ -674,7 +674,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      ( "
 					+ "         tb_fat_cad_domiciliar.co_dim_tempo_validade > ? "
 					+ "         and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
-					+ "      ) " + "   ) " + "   as fact " + ") " + "as fato ");
+					+ "      ) " + "   ) " + "   fact  " + ") " + "fato ");
 
 	// 1 - coDimMunicipio
 	// 2 - codimTempoValidade
@@ -742,7 +742,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_abastecimento_agua.co_seq_dim_tipo_abastec_agua = fato.coDimTipoAbastecimentoAgua "
+					+ "fato on tb_dim_tipo_abastecimento_agua.co_seq_dim_tipo_abastec_agua = fato.coDimTipoAbastecimentoAgua "
 					+ "group by tb_dim_tipo_abastecimento_agua.co_ordem, "
 					+ "tb_dim_tipo_abastecimento_agua.ds_tipo_abastecimento_agua "
 					+ "order by tb_dim_tipo_abastecimento_agua.co_ordem asc ");
@@ -813,7 +813,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_tratamento_agua.co_seq_dim_tipo_tratament_agua = fato.coDimTipoTratamentoAgua "
+					+ "fato on tb_dim_tipo_tratamento_agua.co_seq_dim_tipo_tratament_agua = fato.coDimTipoTratamentoAgua "
 					+ "group by tb_dim_tipo_tratamento_agua.co_ordem, "
 					+ "tb_dim_tipo_tratamento_agua.ds_tipo_tratamento_agua "
 					+ "order by tb_dim_tipo_tratamento_agua.co_ordem asc ");
@@ -884,7 +884,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_escoamento_sanitar.co_seq_dim_tipo_escoamento_snt = fato.coDimTipoEscoamentoSanitar "
+					+ "fato on tb_dim_tipo_escoamento_sanitar.co_seq_dim_tipo_escoamento_snt = fato.coDimTipoEscoamentoSanitar "
 					+ "group by tb_dim_tipo_escoamento_sanitar.co_ordem, "
 					+ "tb_dim_tipo_escoamento_sanitar.ds_tipo_escoamento_sanitario "
 					+ "order by tb_dim_tipo_escoamento_sanitar.co_ordem asc ");
@@ -952,7 +952,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_destino_lixo.co_seq_dim_tipo_destino_lixo = fato.coDimTipoDestinoLixo "
+					+ "fato on tb_dim_tipo_destino_lixo.co_seq_dim_tipo_destino_lixo = fato.coDimTipoDestinoLixo "
 					+ "group by tb_dim_tipo_destino_lixo.co_ordem, "
 					+ "tb_dim_tipo_destino_lixo.ds_tipo_destino_lixo "
 					+ "order by tb_dim_tipo_destino_lixo.co_ordem asc ");
@@ -1058,7 +1058,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      ( "
 					+ "         tb_fat_cad_domiciliar.co_dim_tempo_validade > ? "
 					+ "         and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
-					+ "      ) " + "   ) " + "   as fact " + ") " + "as fato ");
+					+ "      ) " + "   ) " + "   fact  " + ") " + "fato ");
 
 	// 1 - coDimMunicipio
 	// 2 - codimTempoValidade
@@ -1123,7 +1123,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "   and " + "   ( "
 					+ "      tb_fat_cad_domiciliar.co_dim_tempo_validade > ? "
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
-					+ "   ) " + ") " + "as fato");
+					+ "   ) " + ") " + "fato");
 
 	// 1 - coDimMunicipio
 	// 2 - codimTempoValidade
@@ -1191,7 +1191,7 @@ public class CadastroDomiciliar extends Procedure {
 					+ "      and tb_fat_cad_domiciliar.co_dim_tempo <= ? "
 					+ "   ) "
 					+ ") "
-					+ "as fato on tb_dim_tipo_renda_familiar.co_seq_dim_tipo_renda_familiar = fato.coDimTipoRendaFamiliar "
+					+ "fato on tb_dim_tipo_renda_familiar.co_seq_dim_tipo_renda_familiar = fato.coDimTipoRendaFamiliar "
 					+ "group by tb_dim_tipo_renda_familiar.co_ordem, "
 					+ "tb_dim_tipo_renda_familiar.ds_tipo_renda_familiar "
 					+ "order by tb_dim_tipo_renda_familiar.co_ordem asc ");

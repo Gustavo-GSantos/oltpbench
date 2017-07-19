@@ -34,7 +34,7 @@ public class CadastroIndividual extends Procedure {
 				 + "			max( tb_dado_rel_processamento.co_seq_dado_rel_processamento ) "
 				 + "		from "
 				 + "			tb_dado_rel_processamento tb_dado_rel_processamento "
-				 + "	) limit 1"
+				 + "	) "
     );
 			
 	// 1 - coDimMunicipio
@@ -164,7 +164,7 @@ public class CadastroIndividual extends Procedure {
 "      and tb_fat_cidadao.co_dim_tempo <= ? " +
 					"   ) " +
 					") " +
-					"as fact "
+					" fact "
     );
 
 	// 1 - coDimMunicipio
@@ -294,7 +294,7 @@ public class CadastroIndividual extends Procedure {
 //					+ "				tb_fat_cidadao.co_dim_tempo_valdd_municipio >= 30001231 "
 //					+ "				and tb_fat_cidadao.co_dim_tempo <= 20170712 "
 //					+ "			) "
-//					+ "	) as fato on "
+//					+ "	) fato on "
 //					+ "	( "
 //					+ "		case "
 //					+ "			when fato.dtNascimento is not null then date_part( "
@@ -317,7 +317,7 @@ public class CadastroIndividual extends Procedure {
 					+ "				tb_fat_cidadao.co_dim_tempo_valdd_municipio >= ? "
 					+ "				and tb_fat_cidadao.co_dim_tempo <= ? "
 					+ "			) "
-					+ "	) as fato on "
+					+ "	) fato on "
 					+ "	( "
 					+ "		case "
 					+ "			when fato.dtNascimento is not null then date_part( "
@@ -481,7 +481,7 @@ public class CadastroIndividual extends Procedure {
 					"      and tb_fat_cidadao.co_dim_tempo <= ? " +
 					"   ) " +
 					") " +
-					"as fact "
+					" fact "
     );
 	
 
@@ -516,21 +516,21 @@ public class CadastroIndividual extends Procedure {
         // check using blocking of a user by either the IP address or the
         // user_name
 
-        st = this.getPreparedStatement(conn, this.quadroFaixaEtaria);
-        st.setInt(1, coDimMunicipio);
-        st.setInt(2, validade);
-        st.setInt(3, dateFinal);
-        
-        java.sql.Date date = new java.sql.Date((new Date()).getTime());
-		st.setDate(4, date);
-        st.setDate(5, date);
-        try ( ResultSet rs2 = st.executeQuery()){
-        	while (rs2.next()) {
-                //do nothing
-             } // WHILE
-        }
-       
-        rs.close();
+//        st = this.getPreparedStatement(conn, this.quadroFaixaEtaria);
+//        st.setInt(1, coDimMunicipio);
+//        st.setInt(2, validade);
+//        st.setInt(3, dateFinal);
+//        
+//        java.sql.Date date = new java.sql.Date((new Date()).getTime());
+//		st.setDate(4, date);
+//        st.setDate(5, date);
+//        try ( ResultSet rs2 = st.executeQuery()){
+//        	while (rs2.next()) {
+//                //do nothing
+//             } // WHILE
+//        }
+//       
+//        rs.close();
 
         st = this.getPreparedStatement(conn, this.quadroCidadao);
         st.setInt(1, coDimMunicipio);

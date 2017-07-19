@@ -34,15 +34,15 @@ public class AtendimentoIndividual extends Procedure {
 					+ "			max( tb_dado_rel_processamento.co_seq_dado_rel_processamento ) "
 					+ "		from "
 					+ "			tb_dado_rel_processamento tb_dado_rel_processamento "
-					+ "	) limit 1");
+					+ "	)");
 
 	// 1 - coDimMunicipio
-	// 2 - codimTempoValidade
-	// 3 - CoDimTempo
+	// 2 - codimTempoInicial
+	// 3 - CoDimTempoFinal
 	public SQLStmt quadroConfigRelatorioAtendimentoIndividualTotalizador = new SQLStmt(
 			"select "
-					+ "coalesce(sum(case when fato.nuCns is not null then ? else ? end),?), "
-					+ "coalesce(sum(case when fato.nuCns is null then ? else ? end),?) "
+					+ "coalesce(sum(case when fato.nuCns is not null then 1 else 0 end),0), "
+					+ "coalesce(sum(case when fato.nuCns is null then 1 else 0 end),0) "
 					+ "from "
 					+ "( "
 					+ "   select "
@@ -149,22 +149,30 @@ public class AtendimentoIndividual extends Procedure {
 					+ "      from tb_fat_atendimento_individual tb_fat_atendimento_individual "
 					+ "      where tb_fat_atendimento_individual.co_dim_municipio = ? "
 					+ "      and tb_fat_atendimento_individual.co_dim_tempo between ? "
-					+ "      and ? " + "   ) " + "   as fact " + ") "
-					+ "as fato limit ? ");
+					+ "      and ?  )  fact ) fato");
 
-	public SQLStmt quadroConfigFichaAtendimentoIndividualDadoGeral = new SQLStmt(
+		// 1 - coDimMunicipio
+		// 2 - codimTempoInicial
+		// 3 - CoDimTempoFinal
+		// 4 - coDimMunicipio
+		// 5 - codimTempoInicial
+		// 6 - CoDimTempoFinal
+		// 7 - coDimMunicipio
+		// 8 - codimTempoInicial
+		// 9 - CoDimTempoFinal
+		public SQLStmt quadroConfigFichaAtendimentoIndividualDadoGeral = new SQLStmt(
 			"select "
 					+ "tUnions.descricao,tUnions.sim,tUnions.nao,tUnions.nao_informado "
 					+ "from "
 					+ "( "
 					+ "   ( "
 					+ "      select "
-					+ "      ? as descricao, "
-					+ "      coalesce(sum(case when fact.stFicouEmObservacao = ? then ? else ? end),?) as sim, "
-					+ "      coalesce(sum(case when fact.stFicouEmObservacao = ? then ? else ? end),?) as nao, "
+					+ "      1 as descricao, "
+					+ "      coalesce(sum(case when fact.stFicouEmObservacao = 1 then 1 else 0 end),0) as sim, "
+					+ "      coalesce(sum(case when fact.stFicouEmObservacao = 0 then 1 else 0 end),0) as nao, "
 					+ "      coalesce "
 					+ "      ( "
-					+ "         sum(case when fact.stFicouEmObservacao is null then ? else ? end),? "
+					+ "         sum(case when fact.stFicouEmObservacao is null then 1 else 0 end),0 "
 					+ "      ) "
 					+ "      as nao_informado "
 					+ "      from "
@@ -224,17 +232,17 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
 					+ "   union "
 					+ "   ( "
 					+ "      select "
-					+ "      ? as descricao, "
-					+ "      coalesce(sum(case when fact.stGravidezPlanejada = ? then ? else ? end),?) as sim, "
-					+ "      coalesce(sum(case when fact.stGravidezPlanejada = ? then ? else ? end),?) as nao, "
+					+ "      1 as descricao, "
+					+ "      coalesce(sum(case when fact.stGravidezPlanejada = 1 then 1 else 0 end),0) as sim, "
+					+ "      coalesce(sum(case when fact.stGravidezPlanejada = 0 then 1 else 0 end),0) as nao, "
 					+ "      coalesce "
 					+ "      ( "
-					+ "         sum(case when fact.stGravidezPlanejada is null then ? else ? end),? "
+					+ "         sum(case when fact.stGravidezPlanejada is null then 1 else 0 end),0 "
 					+ "      ) "
 					+ "      as nao_informado "
 					+ "      from "
@@ -294,17 +302,17 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
 					+ "   union "
 					+ "   ( "
 					+ "      select "
-					+ "      ? as descricao, "
-					+ "      coalesce(sum(case when fact.stVacinacaoEmDia = ? then ? else ? end),?) as sim, "
-					+ "      coalesce(sum(case when fact.stVacinacaoEmDia = ? then ? else ? end),?) as nao, "
+					+ "      1 as descricao, "
+					+ "      coalesce(sum(case when fact.stVacinacaoEmDia = 1 then 1 else 0 end),0) as sim, "
+					+ "      coalesce(sum(case when fact.stVacinacaoEmDia = 0 then 1 else 0 end),0) as nao, "
 					+ "      coalesce "
 					+ "      ( "
-					+ "         sum(case when fact.stVacinacaoEmDia is null then ? else ? end),? "
+					+ "         sum(case when fact.stVacinacaoEmDia is null then 1 else 0 end),0 "
 					+ "      ) "
 					+ "      as nao_informado "
 					+ "      from "
@@ -362,13 +370,16 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         from tb_fat_atendimento_individual tb_fat_atendimento_individual "
 					+ "         where tb_fat_atendimento_individual.co_dim_municipio = ? "
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
-					+ "         and ? " + "      ) " + "      as fact "
-					+ "   ) " + ") " + "as tUnions "
+					+ "         and ?  )  fact  "
+					+ "   ) ) as tUnions "
 					+ "order by tUnions.descricao asc ");
 
-	public SQLStmt quadroConfigFichaAtendimentoIndividualTurno = new SQLStmt(
+		// 1 - coDimMunicipio
+		// 2 - codimTempoInicial
+		// 3 - CoDimTempoFinal
+		public SQLStmt quadroConfigFichaAtendimentoIndividualTurno = new SQLStmt(
 			"select "
-					+ "tb_dim_turno.ds_turno,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_turno.ds_turno,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_turno tb_dim_turno "
 					+ "left join "
 					+ "( "
@@ -482,17 +493,20 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimTurno "
 					+ ") "
-					+ "as f_grouped on tb_dim_turno.co_seq_dim_turno = f_grouped.coDimTurno "
+					+ " f_grouped on tb_dim_turno.co_seq_dim_turno = f_grouped.coDimTurno "
 					+ "order by tb_dim_turno.co_ordem asc ");
 
-	public SQLStmt quadroConfigFichaAtendimentoIndividualSexo = new SQLStmt(
+		// 1 - coDimMunicipio
+		// 2 - codimTempoInicial
+		// 3 - CoDimTempoFinal
+		public SQLStmt quadroConfigFichaAtendimentoIndividualSexo = new SQLStmt(
 			"select "
-					+ "tb_dim_sexo.ds_sexo,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_sexo.ds_sexo,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_sexo tb_dim_sexo "
 					+ "left join "
 					+ "( "
@@ -606,30 +620,33 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimSexo "
 					+ ") "
-					+ "as f_grouped on tb_dim_sexo.co_seq_dim_sexo = f_grouped.coDimSexo "
+					+ " f_grouped on tb_dim_sexo.co_seq_dim_sexo = f_grouped.coDimSexo "
 					+ "order by tb_dim_sexo.co_ordem asc ");
 
-	public SQLStmt quadroConfigFichaAtendimentoIndividualFaixaEtaria = new SQLStmt(
+		// 1 - coDimMunicipio
+		// 2 - codimTempoInicial
+		// 3 - CoDimTempoFinal
+		public SQLStmt quadroConfigFichaAtendimentoIndividualFaixaEtaria = new SQLStmt(
 			"select "
 					+ "tb_dim_faixa_etaria.ds_faixa_etaria, "
-					+ "coalesce(f_grouped.Homem,?), "
-					+ "coalesce(f_grouped.Mulher,?), "
-					+ "coalesce(f_grouped.NaoInformado,?) "
+					+ "coalesce(f_grouped.Homem,0), "
+					+ "coalesce(f_grouped.Mulher,0), "
+					+ "coalesce(f_grouped.NaoInformado,0) "
 					+ "from tb_dim_faixa_etaria tb_dim_faixa_etaria "
 					+ "left join "
 					+ "( "
 					+ "   select "
 					+ "   distinct fato.coDimFaixaEtaria as coDimFaixaEtaria, "
-					+ "   sum(case when fato.coDimSexo = ? then ? else ? end) as Homem, "
-					+ "   sum(case when fato.coDimSexo = ? then ? else ? end) as Mulher, "
+					+ "   sum(case when fato.coDimSexo = 1 then 1 else 0 end) as Homem, "
+					+ "   sum(case when fato.coDimSexo = 0 then 1 else 0 end) as Mulher, "
 					+ "   sum "
 					+ "   ( "
-					+ "      case when (fato.coDimSexo != ? and fato.coDimSexo != ?) then ? else ? end "
+					+ "      case when (fato.coDimSexo != 1 and fato.coDimSexo != 0) then 1 else 0 end "
 					+ "   ) "
 					+ "   as NaoInformado "
 					+ "   from "
@@ -740,17 +757,17 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimFaixaEtaria "
 					+ ") "
-					+ "as f_grouped on tb_dim_faixa_etaria.co_seq_dim_faixa_etaria = f_grouped.coDimFaixaEtaria "
+					+ " f_grouped on tb_dim_faixa_etaria.co_seq_dim_faixa_etaria = f_grouped.coDimFaixaEtaria "
 					+ "order by tb_dim_faixa_etaria.co_seq_dim_faixa_etaria asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualLocalAtendimento = new SQLStmt(
 			"select "
-					+ "tb_dim_local_atendimento.ds_local_atendimento,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_local_atendimento.ds_local_atendimento,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_local_atendimento tb_dim_local_atendimento "
 					+ "left join "
 					+ "( "
@@ -865,20 +882,20 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimLocalAtendimento "
 					+ ") "
-					+ "as f_grouped on tb_dim_local_atendimento.co_seq_dim_local_atendimento = f_grouped.coDimLocalAtendimento "
+					+ " f_grouped on tb_dim_local_atendimento.co_seq_dim_local_atendimento = f_grouped.coDimLocalAtendimento "
 					+ "where tb_dim_local_atendimento.nu_identificador in "
-					+ "( " + "   ?,?,?,?,?,?,?,?,?,? " + ") "
-					+ "or tb_dim_local_atendimento.nu_identificador = ? "
+					+ "( '4', '5', '8', '7', '3', '1', '2', '9', '10', '6') "
+					+ "or tb_dim_local_atendimento.nu_identificador = '-' "
 					+ "order by tb_dim_local_atendimento.co_ordem asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualTipoAtendimento = new SQLStmt(
 			"select "
-					+ "tb_dim_tipo_atendimento.ds_tipo_atendimento,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_tipo_atendimento.ds_tipo_atendimento,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_tipo_atendimento tb_dim_tipo_atendimento "
 					+ "left join "
 					+ "( "
@@ -993,18 +1010,18 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimTipoAtendimento "
 					+ ") "
-					+ "as f_grouped on tb_dim_tipo_atendimento.co_seq_dim_tipo_atendimento = f_grouped.coDimTipoAtendimento "
-					+ "where tb_dim_tipo_atendimento.nu_identificador in (?,?,?,?,?,?) "
+					+ " f_grouped on tb_dim_tipo_atendimento.co_seq_dim_tipo_atendimento = f_grouped.coDimTipoAtendimento "
+					+ "where tb_dim_tipo_atendimento.nu_identificador in ('-', '2', '1', '6', '5', '4') "
 					+ "order by tb_dim_tipo_atendimento.ds_tipo_atendimento asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualModalidadeAd = new SQLStmt(
 			"select "
-					+ "tb_dim_modalidade_ad.ds_modalidade_ad,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_modalidade_ad.ds_modalidade_ad,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_modalidade_ad tb_dim_modalidade_ad "
 					+ "left join "
 					+ "( "
@@ -1119,19 +1136,19 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimModalidadeAd "
 					+ ") "
-					+ "as f_grouped on tb_dim_modalidade_ad.co_seq_dim_modalidade_ad = f_grouped.coDimModalidadeAd "
-					+ "where tb_dim_modalidade_ad.nu_identificador in (?,?,?,?) "
+					+ " f_grouped on tb_dim_modalidade_ad.co_seq_dim_modalidade_ad = f_grouped.coDimModalidadeAd "
+					+ "where tb_dim_modalidade_ad.nu_identificador in ('1', '2', '3','-') "
 					+ "order by tb_dim_modalidade_ad.co_ordem asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualRacionalidade = new SQLStmt(
 			"select "
 					+ "tb_dim_racionalidade_saude.no_racionalidade_saude, "
-					+ "coalesce(f_grouped.quantidade,?) "
+					+ "coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_racionalidade_saude tb_dim_racionalidade_saude "
 					+ "left join "
 					+ "( "
@@ -1246,17 +1263,17 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimRacionalidadeSaude "
 					+ ") "
-					+ "as f_grouped on tb_dim_racionalidade_saude.co_seq_dim_racionalidade_saude = f_grouped.coDimRacionalidadeSaude "
+					+ " f_grouped on tb_dim_racionalidade_saude.co_seq_dim_racionalidade_saude = f_grouped.coDimRacionalidadeSaude "
 					+ "order by tb_dim_racionalidade_saude.co_ordem asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualAleitamento = new SQLStmt(
 			"select "
-					+ "tb_dim_aleitamento.ds_aleitamento,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_aleitamento.ds_aleitamento,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_aleitamento tb_dim_aleitamento "
 					+ "left join "
 					+ "( "
@@ -1371,23 +1388,23 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimAleitamento "
 					+ ") "
-					+ "as f_grouped on tb_dim_aleitamento.co_seq_dim_aleitamento = f_grouped.coDimAleitamento "
+					+ " f_grouped on tb_dim_aleitamento.co_seq_dim_aleitamento = f_grouped.coDimAleitamento "
 					+ "order by tb_dim_aleitamento.co_ordem asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualNasfPolo = new SQLStmt(
 			"select "
-					+ "coalesce(sum(fato.stNasf1),?), "
-					+ "coalesce(sum(fato.stNasf2),?), "
-					+ "coalesce(sum(fato.stNasf3),?), "
+					+ "coalesce(sum(fato.stNasf1),0), "
+					+ "coalesce(sum(fato.stNasf2),0), "
+					+ "coalesce(sum(fato.stNasf3),0), "
 					+ "coalesce "
 					+ "( "
-					+ "   sum(case when fato.stNasf1 + fato.stNasf2 + fato.stNasf3 = ? then ? else ? end), "
-					+ "   ? "
+					+ "   sum(case when fato.stNasf1 + fato.stNasf2 + fato.stNasf3 = 0 then 1 else 0 end), "
+					+ "   0 "
 					+ ") "
 					+ "from "
 					+ "( "
@@ -1495,20 +1512,20 @@ public class AtendimentoIndividual extends Procedure {
 					+ "      from tb_fat_atendimento_individual tb_fat_atendimento_individual "
 					+ "      where tb_fat_atendimento_individual.co_dim_municipio = ? "
 					+ "      and tb_fat_atendimento_individual.co_dim_tempo between ? "
-					+ "      and ? " + "   ) " + "   as fact " + ") "
-					+ "as fato limit ? ");
+					+ "      and ? " + "   ) fact  ) "
+					+ "fato  ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualCondutaDesfecho = new SQLStmt(
 			"select "
-					+ "coalesce(sum(fato.stConduta1),?), "
-					+ "coalesce(sum(fato.stConduta2),?), "
-					+ "coalesce(sum(fato.stConduta3),?), "
-					+ "coalesce(sum(fato.stConduta4),?), "
-					+ "coalesce(sum(fato.stConduta5),?), "
+					+ "coalesce(sum(fato.stConduta1),0), "
+					+ "coalesce(sum(fato.stConduta2),0), "
+					+ "coalesce(sum(fato.stConduta3),0), "
+					+ "coalesce(sum(fato.stConduta4),0), "
+					+ "coalesce(sum(fato.stConduta5),0), "
 					+ "coalesce "
 					+ "( "
-					+ "   sum(case when fato.stConduta1 + fato.stConduta2 + fato.stConduta3 + fato.stConduta4 + fato.stConduta5 = ? then ? else ? end), "
-					+ "   ? "
+					+ "   sum(case when fato.stConduta1 + fato.stConduta2 + fato.stConduta3 + fato.stConduta4 + fato.stConduta5 = 0 then 1 else 0 end), "
+					+ "   0 "
 					+ ") "
 					+ "from "
 					+ "( "
@@ -1616,22 +1633,22 @@ public class AtendimentoIndividual extends Procedure {
 					+ "      from tb_fat_atendimento_individual tb_fat_atendimento_individual "
 					+ "      where tb_fat_atendimento_individual.co_dim_municipio = ? "
 					+ "      and tb_fat_atendimento_individual.co_dim_tempo between ? "
-					+ "      and ? " + "   ) " + "   as fact " + ") "
-					+ "as fato limit ? ");
+					+ "      and ? " + "   ) " + "   fact  " + ") "
+					+ "fato  ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualEncaminhamento = new SQLStmt(
 			"select "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento1),?), "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento2),?), "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento3),?), "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento4),?), "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento5),?), "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento6),?), "
-					+ "coalesce(sum(fato.stCondutaEncaminhamento7),?), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento1),0), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento2),0), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento3),0), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento4),0), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento5),0), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento6),0), "
+					+ "coalesce(sum(fato.stCondutaEncaminhamento7),0), "
 					+ "coalesce "
 					+ "( "
-					+ "   sum(case when fato.stCondutaEncaminhamento1 + fato.stCondutaEncaminhamento2 + fato.stCondutaEncaminhamento3 + fato.stCondutaEncaminhamento4 + fato.stCondutaEncaminhamento5 + fato.stCondutaEncaminhamento6 + fato.stCondutaEncaminhamento7 = ? then ? else ? end), "
-					+ "   ? "
+					+ "   sum(case when fato.stCondutaEncaminhamento1 + fato.stCondutaEncaminhamento2 + fato.stCondutaEncaminhamento3 + fato.stCondutaEncaminhamento4 + fato.stCondutaEncaminhamento5 + fato.stCondutaEncaminhamento6 + fato.stCondutaEncaminhamento7 = 0 then 1 else 0 end), "
+					+ "   0 "
 					+ ") "
 					+ "from "
 					+ "( "
@@ -1739,12 +1756,12 @@ public class AtendimentoIndividual extends Procedure {
 					+ "      from tb_fat_atendimento_individual tb_fat_atendimento_individual "
 					+ "      where tb_fat_atendimento_individual.co_dim_municipio = ? "
 					+ "      and tb_fat_atendimento_individual.co_dim_tempo between ? "
-					+ "      and ? " + "   ) " + "   as fact " + ") "
-					+ "as fato limit ? ");
+					+ "      and ?  )  fact  ) "
+					+ "fato ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliada = new SQLStmt(
 			"select "
-					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_ciap tb_dim_ciap "
 					+ "left join "
 					+ "( "
@@ -1826,19 +1843,19 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_problemas tb_fat_atd_ind_problemas on tb_fat_atd_ind_problemas.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimCiap "
 					+ ") "
-					+ "as f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
-					+ "where tb_dim_ciap.nu_ciap in (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+					+ " f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
+					+ "where tb_dim_ciap.nu_ciap in ('ABP009', 'ABP008', 'ABP006', 'ABP010', 'ABP005', 'ABP007', 'ABP001', 'ABP004', 'ABP002', 'ABP003', 'ABP011', 'ABP012', 'ABP013', 'ABP014', 'ABP015') "
 					+ "order by tb_dim_ciap.no_ciap asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaDoencaTransmissivel = new SQLStmt(
 			"select "
-					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_ciap tb_dim_ciap "
 					+ "left join "
 					+ "( "
@@ -1920,19 +1937,19 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_problemas tb_fat_atd_ind_problemas on tb_fat_atd_ind_problemas.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimCiap "
 					+ ") "
-					+ "as f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
-					+ "where tb_dim_ciap.nu_ciap in (?,?,?,?) "
+					+ " f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
+					+ "where tb_dim_ciap.nu_ciap in ('ABP017', 'ABP018', 'ABP019', 'ABP020') "
 					+ "order by tb_dim_ciap.no_ciap asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaRastreamento = new SQLStmt(
 			"select "
-					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_ciap tb_dim_ciap "
 					+ "left join "
 					+ "( "
@@ -2014,19 +2031,19 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_problemas tb_fat_atd_ind_problemas on tb_fat_atd_ind_problemas.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimCiap "
 					+ ") "
-					+ "as f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
-					+ "where tb_dim_ciap.nu_ciap in (?,?,?) "
+					+ " f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
+					+ "where tb_dim_ciap.nu_ciap in ('ABP022', 'ABP023', 'ABP024') "
 					+ "order by tb_dim_ciap.no_ciap asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaOutrosCiap = new SQLStmt(
 			"select "
-					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_ciap.nu_ciap,tb_dim_ciap.no_ciap,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_ciap tb_dim_ciap "
 					+ "join "
 					+ "( "
@@ -2108,20 +2125,20 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_problemas tb_fat_atd_ind_problemas on tb_fat_atd_ind_problemas.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
-					+ "   group by fato.coDimCiap having count(fato.nuUuidFicha) > ? "
+					+ "   fato  "
+					+ "   group by fato.coDimCiap having count(fato.nuUuidFicha) > 0 "
 					+ ") "
-					+ "as f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
-					+ "where tb_dim_ciap.nu_ciap != ? "
-					+ "and tb_dim_ciap.nu_ciap not in (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+					+ " f_grouped on tb_dim_ciap.co_seq_dim_ciap = f_grouped.coDimCiap "
+					+ "where tb_dim_ciap.nu_ciap != '-' "
+					+ "and tb_dim_ciap.nu_ciap not in ('ABP009', 'ABP008', 'ABP006', 'ABP010', 'ABP005', 'ABP007', 'ABP001', 'ABP004', 'ABP002', 'ABP003', 'ABP011', 'ABP012', 'ABP013', 'ABP014', 'ABP015', 'ABP017', 'ABP018', 'ABP019', 'ABP020', 'ABP022', 'ABP023', 'ABP024') "
 					+ "order by tb_dim_ciap.nu_ciap asc,tb_dim_ciap.no_ciap asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaOutrosCid = new SQLStmt(
 			"select "
-					+ "tb_dim_cid.nu_cid,tb_dim_cid.no_cid,coalesce(f_grouped.quantidade,?) "
+					+ "tb_dim_cid.nu_cid,tb_dim_cid.no_cid,coalesce(f_grouped.quantidade,0) "
 					+ "from tb_dim_cid tb_dim_cid "
 					+ "join "
 					+ "( "
@@ -2203,22 +2220,22 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_problemas tb_fat_atd_ind_problemas on tb_fat_atd_ind_problemas.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
-					+ "   group by fato.coDimCid having count(fato.nuUuidFicha) > ? "
+					+ "   fato  "
+					+ "   group by fato.coDimCid having count(fato.nuUuidFicha) > 0 "
 					+ ") "
-					+ "as f_grouped on tb_dim_cid.co_seq_dim_cid = f_grouped.coDimCid "
-					+ "where tb_dim_cid.nu_cid != ? "
+					+ "f_grouped on tb_dim_cid.co_seq_dim_cid = f_grouped.coDimCid "
+					+ "where tb_dim_cid.nu_cid != '-' "
 					+ "order by tb_dim_cid.nu_cid asc,tb_dim_cid.no_cid asc ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualExame = new SQLStmt(
 			"select "
 					+ "min(tb_dim_procedimento.ds_proced), "
 					+ "coalesce(p2.co_proced,tb_dim_procedimento.co_proced), "
-					+ "coalesce(sum(avaliado.qtd),?), "
-					+ "coalesce(sum(solicitado.qtd),?) "
+					+ "coalesce(sum(avaliado.qtd),0), "
+					+ "coalesce(sum(solicitado.qtd),0) "
 					+ "from tb_dim_procedimento tb_dim_procedimento "
 					+ "left join tb_dim_procedimento p2 on tb_dim_procedimento.co_seq_dim_proced_ref_ab = p2.co_seq_dim_procedimento "
 					+ "left join "
@@ -2302,13 +2319,13 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_procedimentos tb_fat_atd_ind_procedimentos on tb_fat_atd_ind_procedimentos.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimProcedimentoAvaliado "
 					+ ") "
-					+ "as avaliado on tb_dim_procedimento.co_seq_dim_procedimento = avaliado.coDimProcedimentoAvaliado "
+					+ " avaliado on tb_dim_procedimento.co_seq_dim_procedimento = avaliado.coDimProcedimentoAvaliado "
 					+ "left join "
 					+ "( "
 					+ "   select "
@@ -2390,16 +2407,16 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_procedimentos tb_fat_atd_ind_procedimentos on tb_fat_atd_ind_procedimentos.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimProcedimentoSolicitado "
 					+ ") "
-					+ "as solicitado on tb_dim_procedimento.co_seq_dim_procedimento = solicitado.coDimProcedimentoSolicitado "
+					+ " solicitado on tb_dim_procedimento.co_seq_dim_procedimento = solicitado.coDimProcedimentoSolicitado "
 					+ "where tb_dim_procedimento.co_proced in "
 					+ "( "
-					+ "   ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,? "
+					+ "   'ABEX002', '0202010295', 'ABEX003', '0202010317', 'ABEX027', '0202050017', 'ABEX004', '0211020036', 'ABEX030', '0202020355', 'ABEX005', '0211080055', 'ABEX006', '0202080110', 'ABEX026', '0202010473', 'ABEX007', '0202010279', 'ABEX008', '0202010503', 'ABEX028', '0202020380', 'ABEX009', '0202010287', 'ABEX013', 'ABEX019', '0202031110', 'ABEX016', '0202030903', 'ABEX018', '0202030300', 'ABEX031', '0202120090', 'ABEX023', '0202060217', 'ABEX024', '0205020143', 'ABEX029', '0202080080' "
 					+ ") "
 					+ "group by coalesce(p2.co_proced,tb_dim_procedimento.co_proced) ");
 
@@ -2407,8 +2424,8 @@ public class AtendimentoIndividual extends Procedure {
 			"select "
 					+ "min(tb_dim_procedimento.ds_proced), "
 					+ "coalesce(p2.co_proced,tb_dim_procedimento.co_proced), "
-					+ "coalesce(sum(avaliado.qtd),?), "
-					+ "coalesce(sum(solicitado.qtd),?) "
+					+ "coalesce(sum(avaliado.qtd),0), "
+					+ "coalesce(sum(solicitado.qtd),0) "
 					+ "from tb_dim_procedimento tb_dim_procedimento "
 					+ "left join tb_dim_procedimento p2 on tb_dim_procedimento.co_seq_dim_proced_ref_ab = p2.co_seq_dim_procedimento "
 					+ "left join "
@@ -2492,13 +2509,13 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_procedimentos tb_fat_atd_ind_procedimentos on tb_fat_atd_ind_procedimentos.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimProcedimentoAvaliado "
 					+ ") "
-					+ "as avaliado on tb_dim_procedimento.co_seq_dim_procedimento = avaliado.coDimProcedimentoAvaliado "
+					+ " avaliado on tb_dim_procedimento.co_seq_dim_procedimento = avaliado.coDimProcedimentoAvaliado "
 					+ "left join "
 					+ "( "
 					+ "   select "
@@ -2580,22 +2597,22 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_procedimentos tb_fat_atd_ind_procedimentos on tb_fat_atd_ind_procedimentos.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimProcedimentoSolicitado "
 					+ ") "
-					+ "as solicitado on tb_dim_procedimento.co_seq_dim_procedimento = solicitado.coDimProcedimentoSolicitado "
-					+ "where tb_dim_procedimento.co_proced in (?,?,?,?,?) "
+					+ " solicitado on tb_dim_procedimento.co_seq_dim_procedimento = solicitado.coDimProcedimentoSolicitado "
+					+ "where tb_dim_procedimento.co_proced in ('ABEX020', '0211070149', 'ABEX022', 'ABEX021', '0202110052') "
 					+ "group by coalesce(p2.co_proced,tb_dim_procedimento.co_proced) ");
 
 	public SQLStmt quadroConfigFichaAtendimentoIndividualExameOutro = new SQLStmt(
 			"select "
 					+ "coalesce(p2.co_proced,tb_dim_procedimento.co_proced), "
 					+ "coalesce(p2.ds_proced,tb_dim_procedimento.ds_proced), "
-					+ "sum(coalesce(avaliado.qtd,?)), "
-					+ "sum(coalesce(solicitado.qtd,?)) "
+					+ "sum(coalesce(avaliado.qtd,0)), "
+					+ "sum(coalesce(solicitado.qtd,0)) "
 					+ "from tb_dim_procedimento tb_dim_procedimento "
 					+ "left join "
 					+ "( "
@@ -2678,13 +2695,13 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_procedimentos tb_fat_atd_ind_procedimentos on tb_fat_atd_ind_procedimentos.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimProcedimentoAvaliado "
 					+ ") "
-					+ "as avaliado on tb_dim_procedimento.co_seq_dim_procedimento = avaliado.coDimProcedimentoAvaliado "
+					+ " avaliado on tb_dim_procedimento.co_seq_dim_procedimento = avaliado.coDimProcedimentoAvaliado "
 					+ "left join "
 					+ "( "
 					+ "   select "
@@ -2766,68 +2783,23 @@ public class AtendimentoIndividual extends Procedure {
 					+ "         and tb_fat_atendimento_individual.co_dim_tempo between ? "
 					+ "         and ? "
 					+ "      ) "
-					+ "      as fact "
+					+ "      fact  "
 					+ "      join tb_fat_atd_ind_procedimentos tb_fat_atd_ind_procedimentos on tb_fat_atd_ind_procedimentos.co_fat_atd_ind = fact.coSeqFatAtdInd "
 					+ "   ) "
-					+ "   as fato "
+					+ "   fato  "
 					+ "   group by fato.coDimProcedimentoSolicitado "
 					+ ") "
-					+ "as solicitado on tb_dim_procedimento.co_seq_dim_procedimento = solicitado.coDimProcedimentoSolicitado "
+					+ " solicitado on tb_dim_procedimento.co_seq_dim_procedimento = solicitado.coDimProcedimentoSolicitado "
 					+ "left join tb_dim_procedimento p2 on tb_dim_procedimento.co_seq_dim_procedimento = p2.co_seq_dim_proced_ref_ab "
-					+ "where tb_dim_procedimento.co_proced != ? "
+					+ "where tb_dim_procedimento.co_proced != '-' "
 					+ "and tb_dim_procedimento.co_proced not in "
-					+ "( "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ?, "
-					+ "   ? "
-					+ ") "
+					+ "( 'ABEX002', '0202010295', 'ABEX003', '0202010317', 'ABEX027', '0202050017', 'ABEX004', '0211020036', 'ABEX030', '0202020355', 'ABEX005', '0211080055', 'ABEX006', '0202080110', 'ABEX026', '0202010473', 'ABEX007', '0202010279', 'ABEX008', '0202010503', 'ABEX028', '0202020380', 'ABEX009', '0202010287', 'ABEX013', 'ABEX019', '0202031110', 'ABEX016', '0202030903', 'ABEX018', '0202030300', 'ABEX031', '0202120090', 'ABEX020', '0211070149', 'ABEX023', '0202060217', 'ABEX022', 'ABEX021', '0202110052', 'ABEX024', '0205020143', 'ABEX029', '0202080080' ) "
 					+ "group by coalesce(p2.co_proced,tb_dim_procedimento.co_proced), "
 					+ "coalesce "
 					+ "( "
 					+ "   p2.ds_proced,tb_dim_procedimento.ds_proced "
 					+ ") "
-					+ "having sum(coalesce(avaliado.qtd,?)) + sum(coalesce(solicitado.qtd,?)) > ? "
+					+ "having sum(coalesce(avaliado.qtd,0)) + sum(coalesce(solicitado.qtd,0)) > 0 "
 					+ "order by coalesce(p2.co_proced,tb_dim_procedimento.co_proced) asc, "
 					+ "coalesce(p2.ds_proced,tb_dim_procedimento.ds_proced) asc ");
 
@@ -2836,7 +2808,7 @@ public class AtendimentoIndividual extends Procedure {
 	// -----------------------------------------------------------------
 
 	public ResultSet run(Connection conn, int numQuadros, int coDimMunicipio,
-			int dateFinal, int validade) throws UserAbortException,
+			int startDate, int finalDate) throws UserAbortException,
 			SQLException {
 
 		PreparedStatement st = this
@@ -2853,38 +2825,43 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigRelatorioAtendimentoIndividualTotalizador);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+			
 			} // WHILE
 			rs.close();
 		}
-		if (numQuadros >= 2) {
-			st = this.getPreparedStatement(conn,
-					this.quadroConfigFichaAtendimentoIndividualDadoGeral);
-			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
-			rs = st.executeQuery();
-			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
-			} // WHILE
-			rs.close();
-		}
+//		if (numQuadros >= 2) {
+//			st = this.getPreparedStatement(conn,
+//					this.quadroConfigFichaAtendimentoIndividualDadoGeral);
+//			st.setInt(1, coDimMunicipio);
+//			st.setInt(2, startDate);
+//			st.setInt(3, finalDate);
+//			st.setInt(4, coDimMunicipio);
+//			st.setInt(5, startDate);
+//			st.setInt(6, finalDate);
+//			st.setInt(7, coDimMunicipio);
+//			st.setInt(8, startDate);
+//			st.setInt(9, finalDate);
+//			
+//			rs = st.executeQuery();
+//			while (rs.next()) {
+//			
+//			} // WHILE
+//			rs.close();
+//		}
 		if (numQuadros >= 3) {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualTurno);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+			
 			} // WHILE
 			rs.close();
 		}
@@ -2892,12 +2869,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualSexo);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+			
 			} // WHILE
 			rs.close();
 		}
@@ -2905,12 +2882,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualFaixaEtaria);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -2920,12 +2897,12 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualLocalAtendimento);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+			
 			} // WHILE
 			rs.close();
 		}
@@ -2933,12 +2910,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualTipoAtendimento);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -2946,12 +2923,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualModalidadeAd);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -2959,12 +2936,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualRacionalidade);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -2972,12 +2949,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualAleitamento);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -2985,12 +2962,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualNasfPolo);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -2998,12 +2975,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualCondutaDesfecho);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3011,12 +2988,12 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualEncaminhamento);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3026,12 +3003,12 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliada);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3041,12 +3018,12 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaDoencaTransmissivel);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3056,12 +3033,12 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaRastreamento);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3071,12 +3048,12 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaOutrosCiap);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3086,12 +3063,12 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualProblemaCondicaoAvaliadaOutrosCid);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3099,12 +3076,15 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualExame);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			st.setInt(4, coDimMunicipio);
+			st.setInt(5, startDate);
+			st.setInt(6, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3114,12 +3094,15 @@ public class AtendimentoIndividual extends Procedure {
 							conn,
 							this.quadroConfigFichaAtendimentoIndividualExameTriagemNeonatal);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			st.setInt(4, coDimMunicipio);
+			st.setInt(5, startDate);
+			st.setInt(6, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}
@@ -3127,12 +3110,15 @@ public class AtendimentoIndividual extends Procedure {
 			st = this.getPreparedStatement(conn,
 					this.quadroConfigFichaAtendimentoIndividualExameOutro);
 			st.setInt(1, coDimMunicipio);
-			st.setInt(2, validade);
-			st.setInt(3, dateFinal);
+			st.setInt(2, startDate);
+			st.setInt(3, finalDate);
+			st.setInt(4, coDimMunicipio);
+			st.setInt(5, startDate);
+			st.setInt(6, finalDate);
+			
 			rs = st.executeQuery();
 			while (rs.next()) {
-				byte[] pr_type = rs.getBytes(1);
-				assert (pr_type != null);
+				
 			} // WHILE
 			rs.close();
 		}

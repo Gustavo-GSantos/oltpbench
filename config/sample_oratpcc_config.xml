@@ -2,13 +2,13 @@
 <parameters>
 	<!-- General Workload configuration -->
     <dbtype>oracle</dbtype>
-    <driver>oracle.jdbc.driver.OracleDriver</driver>
+    <driver>oracle.jdbc.OracleDriver</driver>
     <DBUrl>jdbc:oracle:thin:@ec2-107-20-2-159.compute-1.amazonaws.com:1521:ded</DBUrl>
     <DBName>tpcc</DBName>
     <username>tpcc</username>
     <password></password>
     <terminals>1</terminals>
-   	
+
     <works>
         <work>
           <time>60</time>
@@ -17,8 +17,8 @@
           <!-- <weights>45,43,4,4,4</weights> -->
         </work>
 	</works>
-	
-	<!-- TPCC specific -->  
+
+	<!-- TPCC specific -->
    	<scalefactor>1</scalefactor>
    	<dialect>config/dialects/tpcc_dialects.xml</dialect>
    	<isolation>TRANSACTION_SERIALIZABLE</isolation>

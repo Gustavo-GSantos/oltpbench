@@ -2,9 +2,9 @@
 <parameters>
 
 		<!-- Connection details -->
-    <dbtype>postgres</dbtype>
-    <driver>org.postgresql.Driver</driver>
-    <DBUrl>jdbc:postgresql://localhost:5436/</DBUrl>
+    <dbtype>oracle</dbtype>
+    <driver>oracle.jdbc.OracleDriver</driver>
+    <DBUrl>jdbc:oracle:thin:@localhost:1521:xe</DBUrl>
     <DBName>esus</DBName>
     <username>esus</username>
     <password>esus</password>

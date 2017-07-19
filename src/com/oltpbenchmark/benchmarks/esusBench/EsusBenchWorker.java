@@ -23,6 +23,7 @@ import com.oltpbenchmark.api.Procedure.UserAbortException;
 import com.oltpbenchmark.api.TransactionType;
 import com.oltpbenchmark.api.Worker;
 import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoIndividual;
+import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoOdontologico;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroDomiciliar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
@@ -55,10 +56,15 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 			}else if (procedureClass.equals(AtendimentoIndividual.class)){
 				AtendimentoIndividual proc = this.getProcedure(AtendimentoIndividual.class);
 				if (proc != null){
-					proc.run(conn, (Math.abs(ran.nextInt())%14+1), 2, generateDate("20100712", "20170712"), 30001231);
+					proc.run(conn, (Math.abs(ran.nextInt())%21+1), 2, generateDate("20140110", "20160708"), 20160708);
+				}
+			} else if (procedureClass.equals(AtendimentoOdontologico.class)){
+				AtendimentoOdontologico proc = this.getProcedure(AtendimentoOdontologico.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%14+1), 2, generateDate("20140110", "20151223"), 30001231);
 				}
 				
-			}else{
+			} else{
 				GenericQuery proc = (GenericQuery) this.getProcedure(procedureClass);
 				proc.setOwner(this);
 	        	proc.run(conn);
