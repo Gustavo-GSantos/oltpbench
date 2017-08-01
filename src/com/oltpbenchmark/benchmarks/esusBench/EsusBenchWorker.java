@@ -25,6 +25,7 @@ import com.oltpbenchmark.api.Worker;
 import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoDomiciliar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.AtendimentoOdontologico;
+import com.oltpbenchmark.benchmarks.esusBench.queries.AtividadeColetiva;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroDomiciliar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
@@ -63,6 +64,12 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 				AtendimentoOdontologico proc = this.getProcedure(AtendimentoOdontologico.class);
 				if (proc != null){
 					proc.run(conn, (Math.abs(ran.nextInt())%16+1), 2, generateDate("20140110", "20151223"), 30001231);
+				}
+				
+			} else if (procedureClass.equals(AtividadeColetiva.class)){
+				AtividadeColetiva proc = this.getProcedure(AtividadeColetiva.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%8+1), 2, generateDate("20140110", "20151223"), 30001231);
 				}
 				
 			} else if (procedureClass.equals(AtendimentoDomiciliar.class)){
