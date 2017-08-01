@@ -64,7 +64,7 @@ public class AtividadeColetiva extends Procedure {
 					+ "   from tb_fat_atividade_coletiva tb_fat_atividade_coletiva "
 					+ "   where tb_fat_atividade_coletiva.co_dim_municipio = ? "
 					+ "   and tb_fat_atividade_coletiva.co_dim_tempo between ? "
-					+ "   and ? " + ") " + "as fato ");
+					+ "   and ? " + ") " + "fato ");
 
 	public SQLStmt quadroConfigRelatorioAtividadeColetivaTurno = new SQLStmt(
 			"select "
@@ -94,7 +94,7 @@ public class AtividadeColetiva extends Procedure {
 					+ "   and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "   and ? "
 					+ ") "
-					+ "as fato on tb_dim_turno.co_seq_dim_turno = fato.coDimTurno "
+					+ "fato on tb_dim_turno.co_seq_dim_turno = fato.coDimTurno "
 					+ "group by tb_dim_turno.co_ordem,tb_dim_turno.ds_turno "
 					+ "order by tb_dim_turno.co_ordem asc "
 
@@ -130,7 +130,7 @@ public class AtividadeColetiva extends Procedure {
 					+ "   and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "   and ? "
 					+ ") "
-					+ "as fato on tb_dim_tipo_atividade.co_seq_dim_tipo_atividade = fato.coDimTipoAtividade "
+					+ "fato on tb_dim_tipo_atividade.co_seq_dim_tipo_atividade = fato.coDimTipoAtividade "
 					+ "group by tb_dim_tipo_atividade.co_ordem,tb_dim_tipo_atividade.ds_tipo_atividade "
 					+ "order by tb_dim_tipo_atividade.co_ordem asc ");
 
@@ -247,9 +247,9 @@ public class AtividadeColetiva extends Procedure {
 					+ "      and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "      and ? "
 					+ "   ) "
-					+ "   as fact "
+					+ "   fact "
 					+ "   join tb_fat_atvdd_coletiva_ext tb_fat_atvdd_coletiva_ext on fact.coFatAtividadeColetiva = tb_fat_atvdd_coletiva_ext.co_fat_atividade_coletiva "
-					+ ") " + "as fato");
+					+ ") " + "fato");
 
 	public SQLStmt quadroConfigRelatorioAtividadeColetivaTemasParaSaude = new SQLStmt(
 			"select "
@@ -363,9 +363,9 @@ public class AtividadeColetiva extends Procedure {
 					+ "      and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "      and ? "
 					+ "   ) "
-					+ "   as fact "
+					+ "   fact "
 					+ "   join tb_fat_atvdd_coletiva_ext tb_fat_atvdd_coletiva_ext on fact.coFatAtividadeColetiva = tb_fat_atvdd_coletiva_ext.co_fat_atividade_coletiva "
-					+ ") " + "as fato");
+					+ ") " + "fato");
 
 	public SQLStmt quadroConfigRelatorioAtividadeColetivaPraticasEmSaude = new SQLStmt(
 			"select "
@@ -477,9 +477,9 @@ public class AtividadeColetiva extends Procedure {
 					+ "      and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "      and ? "
 					+ "   ) "
-					+ "   as fact "
+					+ "   fact "
 					+ "   join tb_fat_atvdd_coletiva_ext tb_fat_atvdd_coletiva_ext on fact.coFatAtividadeColetiva = tb_fat_atvdd_coletiva_ext.co_fat_atividade_coletiva "
-					+ ") " + "as fato ");
+					+ ") " + "fato ");
 
 	public SQLStmt quadroConfigRelatorioAtividadeColetivaPraticasEmSaudeOutroProcedimento = new SQLStmt(
 			"select "
@@ -576,7 +576,7 @@ public class AtividadeColetiva extends Procedure {
 					+ "      and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "      and ? "
 					+ "   ) "
-					+ "   as fact "
+					+ "   fact "
 					+ "   join tb_fat_atvdd_coletiva_ext tb_fat_atvdd_coletiva_ext on fact.coFatAtividadeColetiva = tb_fat_atvdd_coletiva_ext.co_fat_atividade_coletiva "
 					+ ") "
 					+ "as proced on tb_dim_procedimento.co_seq_dim_procedimento = proced.coDimProcedimento "
@@ -646,9 +646,9 @@ public class AtividadeColetiva extends Procedure {
 					+ "      and tb_fat_atividade_coletiva.co_dim_tempo between ? "
 					+ "      and ? "
 					+ "   ) "
-					+ "   as fact "
+					+ "   fact "
 					+ "   join tb_fat_atvdd_coletiva_int tb_fat_atvdd_coletiva_int on fact.coFatAtividadeColetiva = tb_fat_atvdd_coletiva_int.co_fat_atividade_coletiva "
-					+ ") " + "as fato ");
+					+ ") " + "fato ");
 
 	// -----------------------------------------------------------------
 	// RUN
