@@ -29,6 +29,7 @@ import com.oltpbenchmark.benchmarks.esusBench.queries.AtividadeColetiva;
 import com.oltpbenchmark.benchmarks.esusBench.queries.AvaliacaoElegibilidade;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroDomiciliar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroIndividual;
+import com.oltpbenchmark.benchmarks.esusBench.queries.Complementar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
 import com.oltpbenchmark.types.TransactionStatus;
 import com.oltpbenchmark.util.RandomGenerator;
@@ -75,6 +76,12 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 				
 			} else if (procedureClass.equals(AtendimentoDomiciliar.class)){
 				AtendimentoDomiciliar proc = this.getProcedure(AtendimentoDomiciliar.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%13+1), 2, generateDate("20140110", "20151223"), 30001231);
+				}
+				
+			} else if (procedureClass.equals(Complementar.class)){
+				Complementar proc = this.getProcedure(Complementar.class);
 				if (proc != null){
 					proc.run(conn, (Math.abs(ran.nextInt())%13+1), 2, generateDate("20140110", "20151223"), 30001231);
 				}
