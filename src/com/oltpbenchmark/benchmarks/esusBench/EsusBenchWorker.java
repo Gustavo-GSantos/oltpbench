@@ -31,6 +31,7 @@ import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroDomiciliar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.Complementar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
+import com.oltpbenchmark.benchmarks.esusBench.queries.MarcadoresConsumo;
 import com.oltpbenchmark.types.TransactionStatus;
 import com.oltpbenchmark.util.RandomGenerator;
 
@@ -82,6 +83,12 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 				
 			} else if (procedureClass.equals(Complementar.class)){
 				Complementar proc = this.getProcedure(Complementar.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%13+1), 2, generateDate("20140110", "20151223"), 30001231);
+				}
+				
+			} else if (procedureClass.equals(MarcadoresConsumo.class)){
+				MarcadoresConsumo proc = this.getProcedure(MarcadoresConsumo.class);
 				if (proc != null){
 					proc.run(conn, (Math.abs(ran.nextInt())%13+1), 2, generateDate("20140110", "20151223"), 30001231);
 				}
