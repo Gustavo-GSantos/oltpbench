@@ -32,6 +32,7 @@ import com.oltpbenchmark.benchmarks.esusBench.queries.CadastroIndividual;
 import com.oltpbenchmark.benchmarks.esusBench.queries.Complementar;
 import com.oltpbenchmark.benchmarks.esusBench.queries.GenericQuery;
 import com.oltpbenchmark.benchmarks.esusBench.queries.MarcadoresConsumo;
+import com.oltpbenchmark.benchmarks.esusBench.queries.Procedimentos;
 import com.oltpbenchmark.types.TransactionStatus;
 import com.oltpbenchmark.util.RandomGenerator;
 
@@ -97,6 +98,12 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 				AvaliacaoElegibilidade proc = this.getProcedure(AvaliacaoElegibilidade.class);
 				if (proc != null){
 					proc.run(conn, (Math.abs(ran.nextInt())%15+1), 2, generateDate("20140110", "20151223"), 30001231);
+				}
+				
+			} else if (procedureClass.equals(Procedimentos.class)){
+				Procedimentos proc = this.getProcedure(Procedimentos.class);
+				if (proc != null){
+					proc.run(conn, (Math.abs(ran.nextInt())%10+1), 2, generateDate("20150101", "20151231"), 30001231);
 				}
 				
 			} else{
