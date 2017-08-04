@@ -110,7 +110,13 @@ public class EsusBenchWorker extends Worker<EsusBench> {
 			} else if (procedureClass.equals(ProcedimentosConsolidados.class)){
 				ProcedimentosConsolidados proc = this.getProcedure(ProcedimentosConsolidados.class);
 				if (proc != null){
-					proc.run(conn, (Math.abs(ran.nextInt())%10+1), 2, generateDate("20150101", "20151231"), 30001231);
+					proc.run(conn, (Math.abs(ran.nextInt())%1+1), 2, generateDate("20150101", "20151231"), 30001231);
+				}
+				
+			} else if (procedureClass.equals(ProcedimentosConsolidados.class)){
+				ProcedimentosConsolidados proc = this.getProcedure(ProcedimentosConsolidados.class);
+				if (proc != null){
+					proc.run(conn, 11, 2, generateDate("20150101", "20151231"), 30001231);
 				}
 				
 			} else{
