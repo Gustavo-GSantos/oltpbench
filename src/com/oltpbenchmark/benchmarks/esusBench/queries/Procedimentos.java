@@ -197,9 +197,9 @@ public class Procedimentos extends Procedure {
 			"select "
 					+ "tb_dim_local_atendimento.ds_local_atendimento, "
 					+ "case tb_dim_local_atendimento.nu_identificador "
-					+ "when 4 then 1 when 5 then 2 when 8 then 3 when 7 then 4 "
-					+ "when 3 then 5 when 1 then 6 when 2 then 7 when 9 then 8 "
-					+ "when 10 then 9 when 6 then 10 else 11 end, "
+					+ "when '4' then '1' when '5' then '2' when '8' then '3' when '7' then '4' "
+					+ "when '3' then '5' when '1' then '6' when '2' then '7' when '9' then '8' "
+					+ "when '10' then '9' when '6' then '10' else '11' end, "
 					+ "count(fato.nuUuidFicha) as quantidade "
 					+ "from tb_dim_local_atendimento tb_dim_local_atendimento "
 					+ "left join "
@@ -252,13 +252,13 @@ public class Procedimentos extends Procedure {
 					+ "where tb_dim_local_atendimento.nu_identificador in ( '4', '5', '8', '7', '3', '1', '2', '9', '10', '6') "
 					+ "group by tb_dim_local_atendimento.nu_identificador, "
 					+ "tb_dim_local_atendimento.ds_local_atendimento "
-					+ "order by case tb_dim_local_atendimento.nu_identificador when 4 then 1 when 5 then 2 when 8 then 3 when 7 then 4 "
-					+ "when 3 then 5 when 1 then 6 when 2 then 7 when 9 then 8 "
-					+ "when 10 then 9 when 6 then 10 else 11 end asc ");
+					+ "order by case tb_dim_local_atendimento.nu_identificador when '4' then '1' when '5' then '2' when '8' then '3' when '7' then '4' "
+					+ "when '3' then '5' when '1' then '6' when '2' then '7' when '9' then '8' "
+					+ "when '10' then '9' when '6' then '10' else '11' end asc ");
 
 	public SQLStmt quadroConfigFichaProcedimentoDadoGeral = new SQLStmt(
 			"select "
-					+ "?,coalesce(count(proced.nuUuidFicha),0) "
+					+ "'Escuta inicial',coalesce(count(proced.nuUuidFicha),0) "
 					+ "from "
 					+ "( "
 					+ "   select "

@@ -1573,7 +1573,7 @@ public class AtendimentoDomiciliar extends Procedure {
 					+ "  '0301070024', '0301050082', '0301070075', '0302040021', '0301050090', '0301070067', 'ABPG003', '0301100047', '0301100055', '0201020041', 'ABPG006', '0301100063', '0301100071', '0301100098', '0301100144', 'ABPG018', '0301100152', '0301100179', '0301100187', '0301050120', '0301070113', '0308010019', '0303190019' "
 					+ ") "
 					+ "group by tb_dim_procedimento.co_proced, "
-					+ "tb_dim_procedimento.ds_proced having count(fato.nuUuidFicha) > ? "
+					+ "tb_dim_procedimento.ds_proced having count(fato.nuUuidFicha) > 0 "
 					+ "order by tb_dim_procedimento.co_proced asc,tb_dim_procedimento.ds_proced asc ");
 
 	// -----------------------------------------------------------------

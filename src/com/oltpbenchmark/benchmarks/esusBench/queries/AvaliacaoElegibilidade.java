@@ -873,7 +873,7 @@ public class AvaliacaoElegibilidade extends Procedure {
 					+ "   from tb_fat_avaliacao_elegibilidade tb_fat_avaliacao_elegibilidade "
 					+ "   where tb_fat_avaliacao_elegibilidade.co_dim_municipio = ? "
 					+ "   and tb_fat_avaliacao_elegibilidade.co_dim_tempo between ? "
-					+ "   and ? " + ") " + "fato  ");
+					+ "   and ? ) fato  ");
 
 	public SQLStmt quadroConfigRelatorioAvaliacaoElegibilidadeCid = new SQLStmt(
 			"select "
@@ -956,7 +956,7 @@ public class AvaliacaoElegibilidade extends Procedure {
 					+ "left join tb_dim_cid tb_dim_cid on fato.coDimCidPrincipal = tb_dim_cid.co_seq_dim_cid "
 					+ "group by tb_dim_cid.nu_cid,tb_dim_cid.no_cid "
 					+ "order by case when tb_dim_cid.nu_cid = '-' then 'ZZZ' else tb_dim_cid.nu_cid end asc, "
-					+ "tb_dim_cid.no_cid asc QuadroConfigRelatorioAvaliacaoElegibilidadeCid ");
+					+ "tb_dim_cid.no_cid asc ");
 
 	public SQLStmt quadroConfigRelatorioAvaliacaoElegibilidadeConclusaoDestino = new SQLStmt(
 			"select "

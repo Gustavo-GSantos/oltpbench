@@ -74,7 +74,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fato "
+					" fato "
 	);
 
 	public SQLStmt quadroConfigRelatorioComplementarTurno = new SQLStmt(
@@ -113,7 +113,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fato on tb_dim_turno.co_seq_dim_turno = fato.coDimTurno " +
+					" fato on tb_dim_turno.co_seq_dim_turno = fato.coDimTurno " +
 					"where tb_dim_turno.nu_identificador != '-' " +
 					"group by tb_dim_turno.co_ordem,tb_dim_turno.ds_turno " +
 					"order by tb_dim_turno.co_ordem asc "
@@ -155,7 +155,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fact "
+					" fact "
 	);
 
 	public SQLStmt quadroConfigRelatorioComplementarExameFundoOlho = new SQLStmt(
@@ -194,7 +194,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fact "
+					" fact "
 	);
 
 	public SQLStmt quadroConfigRelatorioComplementarTesteDaOrelhinha = new SQLStmt(
@@ -233,7 +233,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fact "
+					" fact "
 	);
 
 	public SQLStmt quadroConfigRelatorioComplementarExamesImagemTransforntanela = new SQLStmt(
@@ -274,7 +274,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fact "
+					" fact "
 	);
 
 	public SQLStmt quadroConfigRelatorioComplementarExamesImagemTomografiaComputadorizada = new SQLStmt(
@@ -315,7 +315,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fact "
+					" fact "
 	);
 
 	public SQLStmt quadroConfigRelatorioComplementarExamesImagemRessonanciaMagnetica = new SQLStmt(
@@ -356,7 +356,7 @@ public class Complementar extends Procedure {
 					"   and tb_fat_complementar.co_dim_tempo between ? " +
 					"   and ? " +
 					") " +
-					"as fact "
+					" fact "
 	);
 
 	// -----------------------------------------------------------------
