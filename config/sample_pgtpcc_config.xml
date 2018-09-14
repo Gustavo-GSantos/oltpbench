@@ -2,15 +2,15 @@
 <parameters>
     <dbtype>postgres</dbtype>
     <driver>org.postgresql.Driver</driver>
-    <DBUrl>jdbc:postgresql://diuflx01:5432/tpcc/</DBUrl>
+    <DBUrl>jdbc:postgresql://localhost:5432/tpcc/</DBUrl>
     <DBName>tpcc</DBName>
     <username>postgres</username>
     <password>postgres</password>
     <terminals>10</terminals>
-    
+
     <scalefactor>1</scalefactor>
-    
-   	
+
+
    	<transactiontypes>
     	<transactiontype>
     		<name>INVALID</name>
@@ -37,7 +37,7 @@
     		<id>5</id>
     	</transactiontype>
    	</transactiontypes>
-   	
+
     <works>
         <work>
           <time>20</time>
@@ -45,5 +45,5 @@
           <weights>0,20,20,20,20,20</weights>
         </work>
 	</works>
-		
+
 </parameters>
