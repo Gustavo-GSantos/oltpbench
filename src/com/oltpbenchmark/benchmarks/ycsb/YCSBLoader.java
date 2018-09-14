@@ -36,15 +36,15 @@ public class YCSBLoader extends Loader<YCSBBenchmark> {
     public YCSBLoader(YCSBBenchmark benchmark, Connection c) {
         super(benchmark, c);
         this.num_record = (int) Math.round(YCSBConstants.RECORD_COUNT * this.scaleFactor);
-        if (LOG.isDebugEnabled()) {
+       if (LOG.isDebugEnabled()) {
             LOG.debug("# of RECORDS:  " + this.num_record);
         }
     }
     
     @Override
     public List<LoaderThread> createLoaderThreads() throws SQLException {
-        List<LoaderThread> threads = new ArrayList<LoaderThread>();
-        int count = 0;
+    	List<LoaderThread> threads = new ArrayList<LoaderThread>();
+    	int count = 0;
         while (count < this.num_record) {
             final int start = count;
             final int stop = Math.min(start+YCSBConstants.THREAD_BATCH_SIZE, this.num_record);
@@ -62,7 +62,8 @@ public class YCSBLoader extends Loader<YCSBBenchmark> {
     }
 
     private void loadRecords(Connection conn, int start, int stop) throws SQLException {
-        Table catalog_tbl = this.benchmark.getTableCatalog("USERTABLE");
+    	System.out.println("\n\t --> New Thread "+Thread.currentThread().getId() +" \n");
+    	Table catalog_tbl = this.benchmark.getTableCatalog("USERTABLE");
         assert (catalog_tbl != null);
         
         String sql = SQLUtil.getInsertSQL(catalog_tbl, this.getDatabaseType());
@@ -79,7 +80,7 @@ public class YCSBLoader extends Loader<YCSBBenchmark> {
             if (++batch >= YCSBConstants.COMMIT_BATCH_SIZE) {
                 int result[] = stmt.executeBatch();
                 assert (result != null);
-                conn.commit();
+              //  conn.commit();
                 batch = 0;
                 if (LOG.isDebugEnabled())
                     LOG.debug(String.format("Records Loaded %d / %d", total, this.num_record));
@@ -87,7 +88,7 @@ public class YCSBLoader extends Loader<YCSBBenchmark> {
         } // FOR
         if (batch > 0) {
             stmt.executeBatch();
-            conn.commit();
+    //        conn.commit(); Voltdb do not support
             if (LOG.isDebugEnabled())
                 LOG.debug(String.format("Records Loaded %d / %d", total, this.num_record));
         }

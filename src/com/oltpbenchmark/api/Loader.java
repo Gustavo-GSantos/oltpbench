@@ -56,7 +56,7 @@ public abstract class Loader<T extends BenchmarkModule> {
         
         public LoaderThread() throws SQLException {
             this.conn = Loader.this.benchmark.makeConnection();
-            this.conn.setAutoCommit(false);
+            //this.conn.setAutoCommit(false);
         }
         
         @Override

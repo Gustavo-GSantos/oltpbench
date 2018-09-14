@@ -314,7 +314,7 @@ public abstract class BenchmarkModule {
         try {
             Loader<? extends BenchmarkModule> loader = this.makeLoaderImpl(conn);
             if (loader != null) {
-                conn.setAutoCommit(false);
+              //  conn.setAutoCommit(false);
                 
                 // PAVLO: 2016-12-23
                 // We are going to eventually migrate everything over to use the
@@ -337,7 +337,7 @@ public abstract class BenchmarkModule {
                                                 loader.getClass().getSimpleName()));
                     loader.load();
                 }
-                conn.commit();
+               // conn.commit();
 
                 if (loader.getTableCounts().isEmpty() == false) {
                     LOG.info("Table Counts:\n" + loader.getTableCounts());

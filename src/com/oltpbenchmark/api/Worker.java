@@ -79,7 +79,7 @@ public abstract class Worker<T extends BenchmarkModule> implements Runnable {
 
         try {
             this.conn = this.benchmarkModule.makeConnection();
-            this.conn.setAutoCommit(false);
+           // this.conn.setAutoCommit(false);
             
             // 2018-01-11: Since we want to support NoSQL systems 
             // that do not support txns, we will not invoke certain JDBC functions
