@@ -274,23 +274,21 @@ public class TPCHLoader extends Loader<TPCHBenchmark> {
     protected long totalRows = 0;
 
     protected long loadHelper() {
-        Thread loaders[] = new Thread[2];
-//        loaders[0] = loadCustomers();
-        loaders[0] = loadLineItems();
-  //      loaders[2] = loadNations();
-        loaders[1] = loadOrders();
-//        loaders[4] = loadParts();
-//        loaders[5] = loadPartSupps();
-//        loaders[6] = loadRegions();
-//        loaders[7] = loadSuppliers();
+        Thread loaders[] = new Thread[8];
+        loaders[0] = loadCustomers();
+        loaders[1] = loadLineItems();
+        loaders[2] = loadNations();
+        loaders[3] = loadOrders();
+        loaders[4] = loadParts();
+        loaders[5] = loadPartSupps();
+        loaders[6] = loadRegions();
+        loaders[7] = loadSuppliers();
 
-//        for (int i = 0; i < 8; ++i)
-//            if (loaders[i] != null)
-//                loaders[i].start();
-      loaders[0].start();
-      loaders[1].start();
+        for (int i = 0; i < 8; ++i)
+            if (loaders[i] != null)
+                loaders[i].start();
 
-        for (int i = 0; i < 2; ++i) {
+        for (int i = 0; i < 8; ++i) {
             try {
                 if (loaders[i] != null)
                     loaders[i].join();
