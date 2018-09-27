@@ -429,6 +429,7 @@ public class TPCHLoader extends Loader<TPCHBenchmark> {
                                         Pattern usaFmt = Pattern.compile("^\\s*(\\d{2})/(\\d{2})/(\\d{4})\\s*$");
                                         Matcher usaMatcher = usaFmt.matcher(field);
                                         // dd.mm.yyyy
+                                        
                                         Pattern eurFmt = Pattern.compile("^\\s*(\\d{2})\\.(\\d{2})\\.(\\d{4})\\s*$");
                                         Matcher eurMatcher = eurFmt.matcher(field);
                                         
