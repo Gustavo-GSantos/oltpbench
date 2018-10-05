@@ -58,14 +58,14 @@ public class TPCHLoader extends Loader<TPCHBenchmark> {
     private static PreparedStatement partsuppPrepStmt;
     private static PreparedStatement regionPrepStmt;
     private static PreparedStatement supplierPrepStmt;
-//    private static final int numCustomerCols = 8;
-//    private static final int numLineItemCols = 16;
-//    private static final int numNationCols = 4;
-//    private static final int numOrdersCols = 9;
-//    private static final int numPartCols = 9;
-//    private static final int numPartSuppCols = 5;
-//    private static final int numRegionCols = 3;
-//    private static final int numSupplierCols = 7;
+    private static final int numCustomerCols = 8;
+    private static final int numLineItemCols = 16;
+    private static final int numNationCols = 4;
+    private static final int numOrdersCols = 9;
+    private static final int numPartCols = 9;
+    private static final int numPartSuppCols = 5;
+    private static final int numRegionCols = 3;
+    private static final int numSupplierCols = 7;
 
     private static Date now;
     private static long lastTimeMS;
