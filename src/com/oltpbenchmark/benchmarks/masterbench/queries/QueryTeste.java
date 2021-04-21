@@ -22,7 +22,7 @@ public class QueryTeste extends GenericQuery {
 	
 	// Fazer uma query de teste
     public final SQLStmt query_stmt = new SQLStmt(
-              "" //Query de teste
+              "select * from tb_dim_sexo" //Query de teste
         );
 
 		protected SQLStmt get_query() {
