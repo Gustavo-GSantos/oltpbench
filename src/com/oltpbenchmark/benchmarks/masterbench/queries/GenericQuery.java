@@ -14,7 +14,7 @@
  *  limitations under the License.                                            *
  ******************************************************************************/
 
-package com.oltpbenchmark.benchmarks.masterBench.queries;
+package com.oltpbenchmark.benchmarks.masterbench.queries;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -47,9 +47,9 @@ public abstract class GenericQuery extends Procedure {
 
 		try{
 
-			FileReader input = new FileReader("src/com/oltpbenchmark/benchmarks/masterBench/queries/" + queryFile);
+			FileReader input = new FileReader("src/com/oltpbenchmark/benchmarks/masterbench/queries/" + queryFile);
 			BufferedReader reader = new BufferedReader(input);
-			System.out.println("--> src/com/oltpbenchmark/benchmarks/masterBench/queries/" + queryFile +"\n\n");
+			System.out.println("--> src/com/oltpbenchmark/benchmarks/masterbench/queries/" + queryFile +"\n\n");
 			String line = reader.readLine();
 			while (line != null) {
 				query.append(line);

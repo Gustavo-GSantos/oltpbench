@@ -14,7 +14,7 @@
  *  limitations under the License.                                            *
  ******************************************************************************/
 
-package com.oltpbenchmark.benchmarks.masterBench;
+package com.oltpbenchmark.benchmarks.masterbench;
 
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import com.oltpbenchmark.WorkloadConfiguration;
 import com.oltpbenchmark.api.BenchmarkModule;
 import com.oltpbenchmark.api.Loader;
 import com.oltpbenchmark.api.Worker;
-import com.oltpbenchmark.benchmarks.masterBench.queries.QueryTeste;
+import com.oltpbenchmark.benchmarks.masterbench.queries.QueryTeste;
 
 public class MasterBench extends BenchmarkModule {
 	private static final Logger LOG = Logger.getLogger(MasterBench.class);

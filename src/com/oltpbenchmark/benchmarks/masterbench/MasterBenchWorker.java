@@ -14,14 +14,14 @@
  *  limitations under the License.                                            *
  ******************************************************************************/
 
-package com.oltpbenchmark.benchmarks.masterBench;
+package com.oltpbenchmark.benchmarks.masterbench;
 
 import java.sql.SQLException;
 
 import com.oltpbenchmark.api.Procedure.UserAbortException;
 import com.oltpbenchmark.api.TransactionType;
 import com.oltpbenchmark.api.Worker;
-import com.oltpbenchmark.benchmarks.masterBench.queries.GenericQuery;
+import com.oltpbenchmark.benchmarks.masterbench.queries.GenericQuery;
 import com.oltpbenchmark.types.TransactionStatus;
 
 public class MasterBenchWorker extends Worker<MasterBench> {

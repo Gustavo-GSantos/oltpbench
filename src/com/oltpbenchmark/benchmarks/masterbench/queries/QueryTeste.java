@@ -14,7 +14,7 @@
  *  limitations under the License.                                            *
  ******************************************************************************/
 
-package com.oltpbenchmark.benchmarks.masterBench.queries;
+package com.oltpbenchmark.benchmarks.masterbench.queries;
 
 import com.oltpbenchmark.api.SQLStmt;
 

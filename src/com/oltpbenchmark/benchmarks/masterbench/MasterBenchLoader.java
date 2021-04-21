@@ -14,7 +14,7 @@
  *  limitations under the License.                                            *
  ******************************************************************************/
 
-package com.oltpbenchmark.benchmarks.masterBench;
+package com.oltpbenchmark.benchmarks.masterbench;
 
 
 import java.io.BufferedReader;
