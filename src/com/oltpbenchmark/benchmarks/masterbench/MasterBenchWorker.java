@@ -18,10 +18,16 @@ package com.oltpbenchmark.benchmarks.masterbench;
 
 import java.sql.SQLException;
 
+import com.oltpbenchmark.api.Procedure;
 import com.oltpbenchmark.api.Procedure.UserAbortException;
 import com.oltpbenchmark.api.TransactionType;
 import com.oltpbenchmark.api.Worker;
 import com.oltpbenchmark.benchmarks.masterbench.queries.GenericQuery;
+import com.oltpbenchmark.benchmarks.masterbench.queries.Q1;
+import com.oltpbenchmark.benchmarks.masterbench.queries.Q2;
+import com.oltpbenchmark.benchmarks.masterbench.queries.Q3;
+import com.oltpbenchmark.benchmarks.masterbench.queries.Q4;
+import com.oltpbenchmark.benchmarks.masterbench.queries.Q5;
 import com.oltpbenchmark.types.TransactionStatus;
 
 public class MasterBenchWorker extends Worker<MasterBench> {
@@ -32,9 +38,45 @@ public class MasterBenchWorker extends Worker<MasterBench> {
 	@Override
 	protected TransactionStatus executeWork(TransactionType nextTransaction) throws UserAbortException, SQLException {
 		try {
+			
+			Class<? extends Procedure> procedureClass = nextTransaction.getProcedureClass();
+			if (procedureClass.equals(Q1.class)){
+				Q1 proc = this.getProcedure(Q1.class);
+				if (proc != null)
+					proc.run(conn, "oJOfvweKjYSRdpGzztxudLqTBUXsnUVTzKabHxUfr");
+				
+			} else if (procedureClass.equals(Q2.class)){
+				Q2 proc = this.getProcedure(Q2.class);
+				if (proc != null){
+					proc.run(conn, "OGicKYRMZHdKpMxsvTvyDfJEQXxjCIzoJYfjGIxs", "OGicKYRMZHdKpMxsvTvyDfJEQXxjCIzoJYfjGIxs");
+
+				}
+			
+			} else if (procedureClass.equals(Q3.class)){
+				Q3 proc = this.getProcedure(Q3.class);
+				if (proc != null){
+					proc.run(conn, "ymgOHPeTrLnLHsoJdlaqwnjqMdYmOmDLFUNEgKQG", "iXgQkIGpGSOYRrSHvlYDMqFSjFAHHOwxscgUGUvS");
+				}
+				
+			} else if (procedureClass.equals(Q4.class)){
+				Q4 proc = this.getProcedure(Q4.class);
+				if (proc != null){
+					proc.run(conn);
+				}
+				
+			} else if (procedureClass.equals(Q5.class)){
+				Q5 proc = this.getProcedure(Q5.class);
+				if (proc != null){
+					proc.run(conn);
+				}
+				
+			}else{
+			
 			GenericQuery proc = (GenericQuery) this.getProcedure(nextTransaction.getProcedureClass());
         	proc.setOwner(this);
         	proc.run(conn);
+			}
+		
 		} catch (ClassCastException e) {
         	System.err.println("We have been invoked with an INVALID transactionType?!");
         	throw new RuntimeException("Bad transaction type = "+ nextTransaction);

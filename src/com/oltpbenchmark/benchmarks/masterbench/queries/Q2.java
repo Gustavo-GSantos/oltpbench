@@ -16,23 +16,56 @@
 
 package com.oltpbenchmark.benchmarks.masterbench.queries;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+
+import com.oltpbenchmark.api.Procedure;
 import com.oltpbenchmark.api.SQLStmt;
 
-public class Q2 extends GenericQuery {
-	
-    public final SQLStmt query_stmt = new SQLStmt(
-                  		 "select "
-    				 + "	r.ID, r.description "
-    				 + "from Dependency_rule r "
-    				 + "	join Predicate p on r.ID = p.determinant " // = p.determined ,"Duvida em relação ao INTERSECT"
-    				 + "	join Predicate_Aspect pa on p.ID = pa.predicate "
-    				 + "	join Aspect a on pa.aspect = a.ID "
-    				 + "where "
-    				 + "	a. Description = ? "
+import org.apache.log4j.Logger;
 
+public class Q2 extends Procedure {
+
+	private static final Logger LOG = Logger.getLogger(Q2.class);
+	
+	/*****CONFERIR SE O VOLTDB ACEITA INTERSECT*****/
+	/* Por enquanto está dando erro - Conferir script*/
+    public final SQLStmt query_stmt = new SQLStmt(
+    		"SELECT "+
+    				"r.ID, r.description "+
+    				"FROM Dependency_rule r "+
+    				"	JOIN Predicate p ON r.ID = p.determinant "+
+    				"	JOIN Predicate_Aspect pa ON p.ID = pa.predicate "+
+    				"	JOIN Aspect a ON pa.aspect = a.ID "+
+    				"WHERE a.Description = ? "+
+    				"INTERSECT "+
+    				"SELECT r.ID, r.description "+
+    				"FROM Dependency_rule r "+
+    				"	JOIN Predicate p ON r.ID = p.determined "+
+    				"	JOIN Predicate_Aspect pa ON p.ID = pa.predicate "+
+    				"	JOIN Aspect a ON pa.aspect = a.ID "+
+    				"WHERE a. Description = ?; "          		  
         );
 
-		protected SQLStmt get_query() {
-	    return query_stmt;
+	public ResultSet run(Connection conn, String parametro1, String parametro2) throws UserAbortException,
+	SQLException {
+		
+		//LOG.info("Q2");
+
+		PreparedStatement st = this.getPreparedStatement(conn,
+			this.query_stmt);
+		st.setString(1, parametro1);
+		st.setString(2, parametro2);
+		ResultSet rs = st.executeQuery();
+		while (rs.next()) {
+
+		} // WHILE
+		rs.close();
+
+		return null;
 	}
+
 }

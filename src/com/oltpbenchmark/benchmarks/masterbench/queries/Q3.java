@@ -16,23 +16,47 @@
 
 package com.oltpbenchmark.benchmarks.masterbench.queries;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+
+import com.oltpbenchmark.api.Procedure;
 import com.oltpbenchmark.api.SQLStmt;
 
-public class Q3 extends GenericQuery {
+import org.apache.log4j.Logger;
+
+public class Q3 extends Procedure {
+
+	private static final Logger LOG = Logger.getLogger(Q3.class);
 	
     public final SQLStmt query_stmt = new SQLStmt(
-                  		 "select "
-    				 + "	t.ID, t.description "
-    				 + "from Multiple_Aspect_Trajectory t "
-    				 + "	join Moving_Object mo on t.owner = mo.ID "
-    				 + "	join Rule_MAT rm on t.ID = rm.MAT "
-    				 + "	join Dependency_Rule dr on dr.ID = rm.rule "
-    				 + "where "
-    				 + "	mo.description = ? and dr.description = ? "
-
+    		"SELECT t.ID, t.description "+
+    			"FROM Multiple_Aspect_Trajectory t "+
+    			"JOIN Moving_Object mo ON t.MO = mo.ID "+
+    			"JOIN Rule_MAT rm ON t.ID = rm.MAT "+
+    			"JOIN Dependency_Rule dr ON dr.ID = rm.rule "+
+    			"WHERE mo.description = ? AND dr.description = ?; "            		  
         );
+    
+    //+ "	JOIN Moving_Object mo ON t.owner = mo.ID "
 
-		protected SQLStmt get_query() {
-	    return query_stmt;
+    public ResultSet run(Connection conn, String parametro1, String parametro2) throws UserAbortException,
+	SQLException {
+    	
+    	//LOG.info("Q3");
+
+		PreparedStatement st = this.getPreparedStatement(conn,
+			this.query_stmt);
+		st.setString(1, parametro1);
+		st.setString(2, parametro2);
+		ResultSet rs = st.executeQuery();
+		while (rs.next()) {
+
+		} // WHILE
+		rs.close();
+
+		return null;
 	}
 }

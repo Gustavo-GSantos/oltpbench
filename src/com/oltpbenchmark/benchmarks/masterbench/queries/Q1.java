@@ -16,28 +16,60 @@
 
 package com.oltpbenchmark.benchmarks.masterbench.queries;
 
-import com.oltpbenchmark.api.SQLStmt;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 
-public class Q1 extends GenericQuery {
+import com.oltpbenchmark.api.SQLStmt;
+import com.oltpbenchmark.api.Procedure;
+
+import org.apache.log4j.Logger;
+
+public class Q1 extends Procedure {
+
+	private static final Logger LOG = Logger.getLogger(Q1.class);
 	
     public final SQLStmt query_stmt = new SQLStmt(
-                  		 "select "
-    				 + "	r.ID, r.start_time, r.end_time, r.confidence, r.description, "
-    				 + "	p1.description, p1.path, p1.order, p1.parenthesis_type, "
-    				 + "	p1.parenthesis_amount, p1. logical_operator, "
-    				 + "	p2.description, p2.path, p2.order, p2.parenthesis_type, "
-    				 + "	p2.parenthesis_amount, p2. logical_operator "
-    				 + "from Dependency_Rule r "
-    				 + "	join Predicate p1 on p1.determinant = r.ID "
-    				 + "	join Predicate p2 on p2.determined = r.ID "
-    				 + "	join Rule_Dataset rd on r.ID = rd.rule "
-    				 + "	join Dataset d on rd.dataset = d.ID "
-    				 + "where "
-    				 + "	d.URL = ? "
-
+              "SELECT "
+              + 	"r.ID, "
+              + 	"r.start_time, "
+              + 	"r.end_time, "
+              + 	"r.confidence, "
+              + 	"r.description, "
+              + 	"p1.description, "
+              + 	"p1.path, "
+              + 	"p1.order_s, "
+              + 	"p1.parenthesis_type, "
+              + 	"p1.parenthesis_amount, "
+              + 	"p1.logical_operator, "
+              + 	"p2.description, "
+              + 	"p2.path, p2.order_s, "
+              + 	"p2.parenthesis_type, "
+              + 	"p2.parenthesis_amount, "
+              + 	"p2.logical_operator "
+              + "FROM Dependency_Rule r "
+              + 	"JOIN Predicate p1 ON p1.determinant = r.ID "
+              + 	"JOIN Predicate p2 ON p2.determined = r.ID "
+              + 	"JOIN Rule_Dataset rd ON r.ID = rd.rule "
+              + 	"JOIN Dataset d ON rd.dataset = d.ID "
+              + "WHERE d.URL = ?;"            		  
         );
 
-		protected SQLStmt get_query() {
-	    return query_stmt;
-	}
+    public ResultSet run(Connection conn, String parametro) throws UserAbortException,
+	SQLException {
+    	
+    	//LOG.info("Q1");
+
+    	PreparedStatement st = this.getPreparedStatement(conn, this.query_stmt);
+    	st.setString(1, parametro);
+    	ResultSet rs = st.executeQuery();
+    	while (rs.next()) {
+
+    	} // WHILE
+    	rs.close();
+
+    	return null;
+    }
 }

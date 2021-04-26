@@ -29,7 +29,7 @@ import com.oltpbenchmark.WorkloadConfiguration;
 import com.oltpbenchmark.api.BenchmarkModule;
 import com.oltpbenchmark.api.Loader;
 import com.oltpbenchmark.api.Worker;
-import com.oltpbenchmark.benchmarks.masterbench.queries.QueryTeste;
+import com.oltpbenchmark.benchmarks.masterbench.queries.Q1;
 
 public class MasterBench extends BenchmarkModule {
 	private static final Logger LOG = Logger.getLogger(MasterBench.class);
@@ -39,7 +39,7 @@ public class MasterBench extends BenchmarkModule {
 	}
 
 	protected Package getProcedurePackageImpl() {
-		return (QueryTeste.class.getPackage());
+		return (Q1.class.getPackage());
 	}
 
 	/**

@@ -16,24 +16,46 @@
 
 package com.oltpbenchmark.benchmarks.masterbench.queries;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+
+import com.oltpbenchmark.api.Procedure;
 import com.oltpbenchmark.api.SQLStmt;
 
-public class Q5 extends GenericQuery {
-	
-    public final SQLStmt query_stmt = new SQLStmt(
-                  		 "select "
-    				 + "	a.ID, a.description "
-    				 + "from Aspect a "
-    				 + "	join Point_Aspect pa on a.ID = pa.aspect "
-    				 + "	join Point p on pa.point = p.ID "
-    				 + "	join Rule_Point rp on p.ID = rp.point "
-    				 + "	join Dependency_Rule dr on rp.rule = dr. ID "
-    				 + "where "
-    				 + "	dr.description = ? "
+import org.apache.log4j.Logger;
 
+public class Q5 extends Procedure {
+
+	private static final Logger LOG = Logger.getLogger(Q5.class);
+	
+	// Fazer uma query de teste
+    public final SQLStmt query_stmt = new SQLStmt(
+    		"SELECT  a.ID, a.description "+
+    			"FROM Aspect a "+
+    			"	JOIN Point_Aspect pa ON a.ID = pa.aspect "+
+    			"	JOIN Point p ON pa.point = p.ID "+
+    			"	JOIN Rule_Point rp ON p.ID = rp.point "+
+   			"	JOIN Dependency_Rule dr ON rp.rule = dr.ID "+
+   			"WHERE dr.description = 'TksVqRLYDGaxpRcERdIznmJmKNTtDFtBCmEYmwhw'; "
+            		  
         );
 
-		protected SQLStmt get_query() {
-	    return query_stmt;
+    public ResultSet run(Connection conn) throws UserAbortException,
+	SQLException {
+    	
+    	//LOG.info("Q5");
+
+		PreparedStatement st = this.getPreparedStatement(conn, this.query_stmt);
+		//st.setString(1, parametro1);
+		ResultSet rs = st.executeQuery();
+		while (rs.next()) {
+
+		} // WHILE
+		rs.close();
+
+		return null;
 	}
 }
